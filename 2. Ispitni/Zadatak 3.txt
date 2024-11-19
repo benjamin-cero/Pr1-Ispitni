@@ -1,55 +1,44 @@
 #include <iostream>
 using namespace std;
 
+/*Napisati program koji omogućava unos pozitivnog broja n te pronalazi njegove parne cifre i formira novi broj u kojem su parne cifre zamijenjene cifrom '5'.
 
-/*Napisati program koji omogucava unos pozitivnog broja n te pronalazi njegove parne cifre i formira novi broj u kojem su parne cifre zamijenjene cifrom '5'.
+Dodatno program treba ispisati razliku unesenog i broja koji se dobije nakon zamjene.*/
 
-**Dodatno program treba ispisati razliku unesenog i broja koji se dobije nakon zamjene.**
-***/
 
-int BrojCifri(int broj) {
-	int brojac = 0;
-	do
-	{
-		broj /= 10;
-		brojac++;
-	} while (broj!=0);
-	return brojac;
-}
-
-int Zamjeni(int broj) {
-	int cifra = 0;
+int obrnutecifre(int n) {
 	int novi = 0;
-	int brojac = BrojCifri(broj)-1;
-	for (int i = 0; i < BrojCifri(broj); i++)
+	int pozicija = 1;
+
+	while (n > 0)
 	{
-		cifra = broj / pow(10, brojac);
-		cifra %= 10;
-
+		int cifra = n % 10;
 		if (cifra % 2 == 0) {
-			novi = novi * 10 + 5;
+			cifra = 5;
 		}
-		else
-		{
-			novi = novi * 10 + cifra;
-		}
-		brojac--;
+		novi = novi + cifra * pozicija;
+		pozicija *= 10;
+		n /= 10;
 	}
-
 	return novi;
 }
 
+
+
 void main() {
+	int n;
 
-	int broj;
+	do
+	{
+		cout << "Unesite n: ";
+		cin >> n;
 
-	cout << "Unesite broj: " << endl;
-	cin >> broj;	
+	} while (n <= 0);
 
-	int NoviBroj = Zamjeni(broj);
+	int novi = obrnutecifre(n);
 
-	cout << "Od unesenog broja napravljen je broj sa tim ciframa gdje je svaka  parna cifra zamjenjena sa cifrom 5: " << NoviBroj << endl;
-	cout << "Razlika ove dvije cifre je: " << abs(broj - NoviBroj) << endl;
+	cout << "Novi broj: " << novi << endl;
+	cout << "Razlika: " << n - novi << endl;
 
 	system("pause");
 }
