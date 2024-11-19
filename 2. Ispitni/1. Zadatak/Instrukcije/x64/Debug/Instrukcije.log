@@ -1,0 +1,3 @@
+﻿  Instrukcije.cpp
+C:\Users\jovan\source\repos\Instrukcije\Instrukcije\Instrukcije.cpp(14,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+  Instrukcije.vcxproj -> C:\Users\jovan\source\repos\Instrukcije\x64\Debug\Instrukcije.exe
