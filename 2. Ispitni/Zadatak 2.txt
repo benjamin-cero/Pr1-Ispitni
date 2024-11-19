@@ -1,0 +1,41 @@
+#include <iostream>
+using namespace std;
+
+
+/*Napisati program koji ce omoguciti unos prirodnog broja A (A > 100000), te kreirati i ispisati broj B koji ce se sastojati od cifara broja A u obrnutom redoslijedu gdje je svaka parna cifra uklonjena.
+
+<i>Npr. ako se unese 45362792, funkcija treba vratiti 9735</i>Ispisati razliku brojava A i B
+
+**(Obavezno koristiti bar jednu korisnicki definisanu funkciju)***/
+
+
+void main() {
+
+	int A;
+	int B = 0;
+
+	do {
+		cout << "Unesite broj A veci od 100000: " << endl;
+		cin >> A;
+	} while (A <= 1000000);
+	int cifra;
+
+	while (A > 0) {
+
+		cifra = A % 10;
+
+		if (cifra % 2 == 0) {   // Ako je cifra parna, odbacuje se(preskace se dio spajanja u broj B i ide se direktno na iduci korak.)
+			A /= 10;
+		}
+
+		else {
+			B = B * 10 + cifra;
+			A /= 10;
+		}
+	}
+
+	cout << "Od unesenog A " << A << " napravljen je broj B sa obrnutim ciframa i bez parnih cifri: " << B << endl;
+	cout << "Razlika A i B je: " << abs(A - B);
+
+	system("pause");
+}
