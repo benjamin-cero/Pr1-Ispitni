@@ -1,0 +1,43 @@
+#include <iostream>
+using namespace std;
+
+
+
+/* Napisati program koji omogućava korisniku unos prirodnog broja N (50 < N < 5000000). 
+Zatim uneseni broj proslijediti funkciji kao parametar po referenci.
+U funkciji je od unesenog broja potrebno kreirati novi broj teko što će se poredak cifri unesenog broja obrnuti.
+Prilikom obrtanja potrebno je odbaciti neparne cifre.
+
+<i>Npr. Za uneseni broj 1234567 obrnuti broj bez neparnih cifara je 642.</i>*/
+
+
+void obrniParne(int &n) {
+	int novi = 0;
+
+	do
+	{
+		int cifra = n % 10;
+		if (cifra % 2 == 0) {
+			novi = novi * 10 + cifra;
+		}
+		n /= 10;
+
+	} while (n > 0);
+	n = novi;
+
+}
+
+
+void main() {
+	int n = 0;
+	cout << "Unesitebroj n koji je veci od 50 a manji od 5000000: ";
+	cin >> n;
+	while (n <= 50 || n >= 5000000)
+	{
+		cout << "<5000000 && >50: ";
+		cin >> n;
+	}
+	obrniParne(n);
+	cout << "Obrnut broj bez neparnih iznosi " << n << endl;
+	system("pause");
+}

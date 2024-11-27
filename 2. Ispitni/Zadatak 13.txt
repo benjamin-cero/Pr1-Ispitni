@@ -1,0 +1,60 @@
+#include <iostream>
+using namespace std;
+
+/Napišite program u kojem ćete omogućiti unos dva prirodna broja manja od 500 koji predstavljaju granice intervala, te pronaći i ispisati kojom 
+cifrom/znamenkom završava umnožak svih prostih brojeva u zadanom intervalu uključujući granične vrijednosti./
+
+bool prost(int broj) {
+	for (int i = 2; i < broj; i++)
+	{
+		if (broj % i == 0)
+			return false;
+	}
+	if (broj == 1) {
+		return false;
+	}
+	return true;
+}
+
+
+long long umnozak(int m, int n) {
+	long long umnozak = 1;
+
+	for (int i = n; i <= m; i++)
+	{
+		if (prost(i)) {
+			umnozak = umnozak * i;
+			cout << "Umnozak: " << umnozak << endl;
+		}
+	}
+	return umnozak;
+}
+
+void main() {
+	int m;
+	int n;
+
+	do
+	{
+		cout << "Unesite granice intervala m i n: " << endl;;
+		cout << "Unesite n: ";
+		cin >> n;
+		cout << "Unesite m: " << endl;
+		cin >> m;
+	} while (!(m<500 && n < 500));
+
+	if (m < n) {
+		int temp = m;
+		m = n;
+		n = temp;
+	}
+
+	long long rezultat = umnozak(m, n);
+
+	int posljednjacifra = rezultat % 10;
+
+
+	cout << "Posljednja cifra umnoska je " << posljednjacifra << " Za broj: " << rezultat << endl; 
+
+	system("pause");
+}

@@ -1,0 +1,65 @@
+#include <iostream>
+using namespace std;
+
+/*Napisati program koji na osnovu unesenog cijelog broja N pronalazi i ispisuje srednju cifru ako broj N ima neparan broj cifara, odnosno aritmeticku sredinu (tip float)
+srednje dvije cifre ako broj N ima parni broj cifara, a zatim pronaci najmanji broj tipa int sa kojim se srednja cifra ili aritmeticka sredina srednjih cifri treba pomnoziti da bi se
+dobio broj koji je veci od inicijalnog zadanog broja.
+
+Npr. za broj 75631 srednja cifra je 6, najmanja integer vrijednost sa kojom treba pomnoziti broj 6 da bi se 
+dobio broj veci od 75631 je 12606 jer je 12606 * 6 = 75636, 75636 > 75631 ili za broj 984354 aritmeticka sredina srednje dvije cifre je 3.5,
+najmanja integer vrijednost sa kojom treba pomnoziti broj 3.5 da bi se dobio broj veci od 984354 je 281245 jer je 281245 * 3.5 = 984357.5, 984357.5 > 984354
+
+(Napomena: Potrebno je voditi računa o tipovima podataka.)*/
+
+int brojcifri(int broj) {
+	int brcifri = 0;
+	while (broj > 0)
+	{
+		broj /= 10;
+		brcifri++;
+	}
+	return brcifri;
+}
+
+// 12345678
+float srednja(int n) {
+	int cifre = brojcifri(n);
+	float srednja;
+	int intsrednja;
+	if (cifre % 2 == 0) {
+		n = n / pow(10.0, (cifre / 2 - 1));
+		srednja = n % 10;
+		n /= 10;
+		srednja += n % 10;
+		return srednja / 2.0;
+	}
+	else {
+		intsrednja = n / pow(10.0, cifre / 2);
+		return intsrednja % 10;
+	}
+}
+int pomnozi(int n) {
+	float srednjacifra = srednja(n);
+	float noviBroj = 0;
+	int brojac = 1;
+	while (noviBroj <= n) {
+		noviBroj = srednjacifra * brojac;
+		brojac++;
+	}
+	return brojac;
+}
+
+
+void main() {
+	int n;
+	cout << "Unesite broj N: ";
+	cin >> n;
+
+	cout << "Uneseni Broj je " << n << endl;
+	cout << "Srednja Cifra mu je " << srednja(n) << endl;
+	cout << "Potrebno je pomnoziti sa " << pomnozi(n) << " da bi dobili broj veci od n a to je " << srednja(n) * pomnozi(n) << endl;
+
+
+
+	system("pause");
+}

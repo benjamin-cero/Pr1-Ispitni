@@ -1,0 +1,61 @@
+#include <iostream>
+using namespace std;
+const int n = 100;
+
+
+/*Napisati program koji izračunava ukupan zbir faktorijela od svih prostih brojeva koji su članovi prvih 100 elemenata Fibonacci niza (tzv. fibonacci prime). 
+
+Napomena: Pazljivo pročitajte zadatak.
+Obavezno voditi računa da se uradi tačno ono što je trazeno u zadatku i da zadatak bude logicki ispravan. 
+Obavezno koristiti bar jednu funkciju kojoj ćete proslijediti parametar po referenci.*/
+
+bool prost(int broj) {
+	for (int i = 2; i < broj; i++)
+	{
+		if (broj % i == 0) {
+			return false;
+		}
+	}
+	return true;
+}
+int faktorijel(int broj) {
+	int rezultat = 1;
+	for (int i = 1; i <= broj; i++){
+		rezultat *= i;
+	}
+	return rezultat;
+}
+void Suma(long long niz[], int& suma) {
+	suma = 0;
+	for (int i = 0; i < n; i++)
+	{
+		if (prost(niz[i])==true) {
+			suma += faktorijel(niz[i]);
+		}
+	}
+}
+//fibonaci je element koji ima vrijednost sume prethodna dva lementa
+void fibonaci(long long niz[]) {
+	niz[0] = 0;
+	niz[1] = 1;
+
+	for (int i = 2; i < n; i++)
+	{
+		niz[i] = niz[i - 1] + niz[i - 2];
+		cout << i << ": " << niz[i] << endl;
+	}
+
+}
+
+void main() {
+	long long niz[n];
+	fibonaci(niz);
+
+	int suma;
+
+	Suma(niz, suma);
+
+	cout << "Ukupan zbir faktorijela prostih brojeva u prvih 100 elemenata fibonacci niza je " << suma << endl;
+
+	system("pause");
+}

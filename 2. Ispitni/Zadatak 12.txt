@@ -1,0 +1,55 @@
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+
+/*Napisati program koji će omogućiti korisniku unos dva minimalno trocifrena prirodna broja m i n (n > m, m > 100, n < 500).
+Zatim napraviti funkciju koja će vratiti aritmetičku sredinu svih srednjih cifara svih brojeva u rangu od m do n.
+
+Također ta funkcija treba ispisati najveću srednju cifru navedenog ranga.*/
+
+double artimeticka(int m, int n) {
+	int sumaSrednje = 0;
+	int brojac = 0;
+	int najvecaCifra = 0;
+
+	for (int i = m; i <= n; i++)
+	{
+		int broj = i;
+		int cifra;
+
+		cifra = (broj / 10) % 10;
+
+		cout << cifra << endl;
+
+		sumaSrednje += cifra;
+		brojac++;
+		if (cifra > najvecaCifra) {
+			najvecaCifra = cifra;
+		}
+	}
+	double artimeticka = double(sumaSrednje) / brojac;
+
+	cout << "Artimeticka sredina srednjih cifara: " << artimeticka << endl;
+	cout << "Najveca srednja cifra: " << najvecaCifra << endl;
+
+	return artimeticka;
+
+
+}
+
+void main() {
+	int n, m;
+	do
+	{
+		cout << "Unesite m: " << endl;
+		cin >> m;
+		cout << "Unesite n: ";
+		cin >> n;
+	} while (!(m < n && m > 100 && n < 500));
+
+	double rezultat = artimeticka(m, n);
+
+
+	system("pause");
+}

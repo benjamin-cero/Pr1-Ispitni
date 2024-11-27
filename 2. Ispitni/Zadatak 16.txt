@@ -1,0 +1,62 @@
+#include <iostream>
+using namespace std;
+
+/*Poštujući sve faze procesa programiranja napraviti program koji pronalazi i ispisuje sve složene brojeve brojeve iz intervala m-n (10 < m < 100, 500 < n < 2000, m < n;
+ukoliko unesene vrijednosti nisu ispravne, učitavanje treba ponavljati), te pronalazi i ispisuje njihovu aritmetičku sredinu.
+Napraviti sljedeće funkcije:
+
+bool slozeni – koja će ispitivati da li je broj složeni
+ispis – koja koja će ispisivati sve složene brojeve i vratiti main funkciji njihovu aritmetičku sredinu.
+
+U glavnom programu je potrebno ispisati aritmetičku sredinu.
+
+Složeni broj je svaki broj koji nije prosti, odnosno koji ima bar jednog djelioca osim broja 1 i samog sebe.*/
+
+bool slozeni(int n) {
+	for (int i = 2; i < n; i++)
+	{
+		if (n % i == 0)
+			return true;
+	}
+	return false;
+}
+
+float ispis(int m, int n) {
+	int suma = 0;
+	int brSlozenih = 0;
+
+	cout << "Slozeni brojevi u interalu od " << m << " do " << n << " su: " << endl;
+	for (int i = m; i <= n; i++) {
+		if (slozeni(i)) {
+			cout << i << endl;
+			suma += i;
+			brSlozenih++;
+		}
+	}
+	cout << endl;
+
+	if (brSlozenih == 0)
+		return 0;
+
+	return float(suma) / brSlozenih;
+
+}
+void main() {
+	int m;
+	int n;
+
+	do
+	{
+		cout << "Unesire m (10 < m < 100): ";
+		cin >> m;
+		cout << "Unesite n (500 < n < 2000): ";
+		cin >> n;
+
+	} while (!(10 < m && m < 100 && 500 < n && n < 2000));
+
+	float artimeticka = ispis(m, n);
+
+	cout << "Artimeticka sredina slozenih brojeva je " << artimeticka << endl;
+
+	system("pause");
+}

@@ -1,0 +1,57 @@
+#include <iostream>
+using namespace std;
+
+/*/Napišite program, u kojem ćete omogućiti unos dva prirodna broja manja od 500 koji predstavljaju granice intervala, te pronaći i ispisati kojom znamenkom završava najveći prosti broj u zadanom intervalu ne uključujući granične vrijednosti./
+
+bool prost(int broj) {
+	for (int i = 2; i < broj; i++)
+	{
+		if (broj % i == 0)
+			return false;
+	}
+	if (broj == 1) {
+		return false;
+	}
+	return true;
+}
+// 5   5  8 
+
+int program(int m, int n) {
+	int najveciprost = 0;
+	for (int i = n+1; i < m; i++)
+	{
+		if (prost(i)) {
+
+			najveciprost = i;
+		}
+
+	}
+	return najveciprost;
+}
+void main() {
+	int m;
+	int n;
+
+	do
+	{
+		cout << "Unesite granice intervala m i n: " << endl;
+		cout << "Unesite n: ";
+		cin >> n;
+		cout << "Unesite m: " << endl;
+		cin >> m;
+	} while (!(m<500 && n < 500));
+
+	if (m < n) {
+		int temp = m;
+		m = n;
+		n = temp;
+	}
+
+
+	int najveciprost = program(m, n);
+
+	cout << "Najveci prost broj je: " << najveciprost << " " << najveciprost % 10 << endl;
+
+
+	system("pause");
+}

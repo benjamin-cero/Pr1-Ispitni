@@ -1,0 +1,87 @@
+#include <iostream>
+using namespace std;
+/* Napisati program koji će uzastopno učitavati cijele brojeve m i n(1 <= m <= 50, 1 <= n <= 500) i pronalaziti srednju cifru njihovog proizvoda / umnoška.
+Program treba ispisivati srednju cifru samo ako je veća od prethodno izračunate srednje cifre.Prva pronađena srednja cifra se svakako ispisuje.
+Program se forsirano prekida ako korisnik unese n = 0.
+Program se prirodno završava ako je pronađena srednja cifra 9.
+Primjer izvršenja :
+```c+ +
+unesi m i n : 10, 15
+srednja cifra / sredina proizvoda brojeva 10 i 15 (10 * 15 = 150) je : 5
+unesi m i n : 10, 42
+srednja cifra / sredina proizvoda brojeva 10 i 42 (10 * 42 = 420) je : ne ispisuje se
+unesi m i n : 12, 31
+srednja cifra / sredina proizvoda brojeva 12 i 31 (12 * 31 = 372) je : 7
+unesi m i n : 149, 20
+srednja cifra / sredina proizvoda brojeva 149 i 20 (149 * 20 = 2980) je : 8.5
+unesi m i n : 150, 0
+forsirani prekid... */
+int brojfri(int broj) {
+	int brcifri = 0;
+	while (broj > 0)
+	{
+		broj /= 10;
+		brcifri++;
+	}
+	return brcifri;
+}
+// 123456
+float srednajcifra(int broj) {
+	int brcif = brojfri(broj);
+	int srednajpozicija = brcif / 2;
+	if (brcif % 2 == 0) {
+		int cifra1, cifra2, temp;
+		temp = broj;
+		for (int i = 0; i < srednajpozicija - 1; i++)
+		{
+			temp /= 10;
+		}
+		cifra1 = temp % 10;
+		temp /= 10;
+		cifra2 = temp % 10;
+		return float(cifra1 + cifra2) / 2;
+	}
+	else {
+		int temp = broj;
+		for (int i = 0; i < srednajpozicija; i++)
+		{
+			temp /= 10;
+		}
+		return temp % 10;
+	}
+}
+void main() {
+	int m;
+	int n;
+	float proslasrednjacifra = -1;
+	float trenutnasrednja = 0;
+	while (true) {
+		do {
+			cout << "Unesite m <50 m >= 1: ";
+			cin >> m;
+			cout << "Unesite n < 500 n >= 1: ";
+			cin >> n;
+			if (n == 0) {
+				cout << "Forsirano zaustavljanje programa! " << endl;
+				break;
+			}
+		} while (m > 50 || m < 1 || n > 500 || n < 1);
+
+		int proizvod = m * n;
+		cout << "Proizvod m i n iznosi: " << proizvod << endl;
+		trenutnasrednja = srednajcifra(proizvod);
+
+		if (proslasrednjacifra == -1 || proslasrednjacifra < trenutnasrednja) {
+			cout << "Srednja cifra proizboda brojeva " << m << " i " << n << " iznosi " << trenutnasrednja << endl;
+			proslasrednjacifra = trenutnasrednja;
+		}
+
+		if (trenutnasrednja == 9) {
+			cout << "Program se zavrsva jer je pronadjena srednja 9. " << endl;
+			break;
+		}
+	}
+
+
+	system("pause");
+}
