@@ -1,0 +1,50 @@
+#include <iostream>
+#include <cmath>
+
+
+using namespace std;
+
+/*Kreirati jednodim dinam niz n velicine i n
+apuniti ga serijom kubova svakog proslog broja pocevsi 
+od 2. Prekida se kada se deesi overflow, napuni niz.Ispisati niz rekurzivno!
+
+Koristiti aritmetiku pointera!*/
+
+void rekurzija(int* niz, int vel, int i = 2) {
+	if (i == vel) {
+		return;
+	}
+	if (pow((*(niz + i) - 1), 3) < 0 || pow((*(niz + i) - 1), 3) > INT_MAX) {
+		return;
+	}
+	*(niz + i) = pow((*(niz + i) - 1), 3);
+
+	rekurzija(niz, vel, i + 1);
+}
+
+
+void main() {
+	int vel;
+
+	cout << "Uesite velicinu niza: ";
+	cin >> vel;
+
+	int* niz = new int[vel];
+
+	*(niz + 0) = 1;
+	*(niz + 1) = 2;
+
+	rekurzija(niz, vel);
+	for (int i = 0; i < vel; i++)
+	{
+		if (*(niz + i) < 0) {
+			break;
+		}
+		cout << *(niz + i) << endl;
+	}
+
+	delete[] niz;
+	niz = nullptr;
+
+	system("pause");
+}

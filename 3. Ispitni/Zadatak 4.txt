@@ -1,0 +1,53 @@
+#include <iostream>
+using namespace std;
+
+/*Napisati program koji će omogućiti korisniku da unese veličinu  jednodimenzionalnog 
+dinamičkog niza integer vrijednosti. Napisati  rekurzivnu funkciju koja će taj niz popuniti 
+faktorijelom rednog broja  člana niza (1!, 2!, 3!, 4!...). Rekurzija se prekida kada 
+se popuni  cijeli niz ili kada se desi overflow na integer varijabli. U ovom  zadatku 
+je zabranjeno indeksirati elemente niza uglastim zagradama.
+
+(Obavezno koristiti aritmetiku pokazivača. Obavezno sve riješiti jednom  rekurzivnom funkcijom.)*/
+
+void faktorijel(int* niz, int vel, int i = 1) {
+	if (i == vel) {
+		return;
+	}
+
+	long long Faktorijel = *(niz + i - 1) * (i + 1);
+	if (Faktorijel > INT_MAX || Faktorijel < 0) {
+		return;
+	}
+	*(niz + i) = Faktorijel;
+
+	faktorijel(niz, vel, i + 1);
+
+}
+// 1 * 2 * 3 * 4 * 5 == 120
+// FAKTORIJEL = 
+// 
+// 
+
+void main() {
+	int vel = 0;
+	cout << "Unesi vel: ";
+	cin >> vel;
+
+	int* niz = new int[vel];
+
+
+	*(niz + 0) = 1;
+	faktorijel(niz, vel);
+	for (int i = 0; i < vel; i++)
+	{
+		if ((niz + i) < 0)
+			break;
+
+		cout << *(niz + i) << endl;
+
+	}
+
+
+
+	system("pause");
+}

@@ -1,0 +1,30 @@
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+/*Napisati program koji učitava prirodan broj n.Program treba ispisati najmanji prirodni broj m 
+,veći ili jednak n , koji je potencija nekog prirodnog broja, tj. m=k^l, gdje su k i l≥2 prirodni 
+brojevi. U ovom zadatku je zabranjeno koristiti pow funkciju za računanje potencije.Potenciju računati 
+koristeći rekurzivnu funkciju kojoj se proslijeđuje k i l i u kojoj je dozvoljena samo operacija množenja.
+
+**Za olakšanje rješenja, možete odabrati prototip funkcija po želji.***/
+
+int potencija(int n, int k = 2, int l = 2) {
+	int m = k * l;
+
+	if (n <= m) {
+		return m;
+	}
+
+	return potencija(n, k + 1, l + 1);
+}
+void main() {
+	int n;
+
+	cout << "Unesi n : ";
+	cin >> n;
+	cout << "Potencija od n iznosi: " << endl << endl;
+	cout << potencija(n) << endl;
+
+	system("pause");
+}
