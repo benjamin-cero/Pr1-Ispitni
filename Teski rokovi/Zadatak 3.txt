@@ -1,0 +1,110 @@
+#include <iostream>
+using namespace std;
+
+/*Napišite program koji omogućava korisniku unos dimenzija matrice (broj redova i kolona) uz ograničenje da broj 
+redova i kolona mora biti veći od 0. Nakon unosa dimenzija, potrebno je unijeti poziciju ciljanog mjesta unutar matrice,
+te vrijednost target (mora biti veća od 0) koja će biti pohranjena na ciljanom mjestu. Zatim je potrebno formirati matricu 
+(dinamička alokacija) datih dimenzija i popuniti je na sljedeći način:
+
+Ciljana pozicija treba sadržavati vrijednost target.
+Svako susjedno mjesto u odnosu na ciljani element (uključujući dijagonale) mora imati vrijednost manju za 1.
+Što su mjesta udaljenija od ciljanog, to će vrijednosti biti manja. Najmanja moguća vrijednost u matrici je 0.
+Ispisati formiranu matricu i obaviti sve neophodne dealokacije.
+
+Primjer korištenja:
+
+Unesite broj redova: 7
+Unesite broj kolona: 7
+Unesite red ciljanog mjesta: 3
+Unesite kolonu ciljanog mjesta: 3
+Unesite vrijednost target (veća od 0): 4
+
+Formirana matrica:
+1 1 1 1 1 1 1
+1 2 2 2 2 2 1
+1 2 3 3 3 2 1
+1 2 3 4 3 2 1
+1 2 3 3 3 2 1
+1 2 2 2 2 2 1
+1 1 1 1 1 1 1*/
+
+void popunjavanje(int** matrica, int red, int kolona,int ciljaniRed, int ciljanjaKolona, int target) {
+    int distanca;
+    for (int i = 0; i < red; i++) {
+        for (int j = 0; j < kolona; j++) {
+            int DistancaReda = abs(ciljaniRed - i);
+            int DistancaKolone = abs(ciljanjaKolona - j);
+
+            if (DistancaReda > DistancaKolone) {
+                distanca = DistancaReda;
+            }
+            else {
+                distanca = DistancaKolone;
+            }
+
+            int Vrijednost = target - distanca;
+            if (Vrijednost > 0) {
+                matrica[i][j] = Vrijednost;
+            }
+            else {
+                matrica[i][j] = 0;
+            }
+        }
+    }
+
+}
+void ispis(int** matrica, int red, int kolona) {
+    cout << "Ispis matrice:" << endl;
+    for (int i = 0; i < red; i++) {
+        for (int j = 0; j < kolona; j++) {
+            cout << matrica[i][j] << " ";
+        }
+        cout << endl;
+    }
+}
+
+void main() {
+    int red, kolona, ciljaniRed, ciljanaKolona, target;
+
+    do {
+        cout << "Unesite broj redova: ";
+        cin >> red;
+    } while (red <= 0);
+
+    do {
+        cout << "Unesite broj kolona: ";
+        cin >> kolona;
+    } while (kolona <= 0);
+
+    do {
+        cout << "Unesite red ciljanog mjesta: ";
+        cin >> ciljaniRed;
+    } while (ciljaniRed < 0 || ciljaniRed >= red);
+
+    do {
+        cout << "Unesite kolonu ciljanog mjesta: ";
+        cin >> ciljanaKolona;
+    } while (ciljanaKolona < 0 || ciljanaKolona >= kolona);
+
+    do {
+        cout << "Unesite vrijednost targeta (veca od 0): ";
+        cin >> target;
+    } while (target <= 0);
+
+    // Dinamička alokacija matrice
+    int** matrica = new int* [red];
+    for (int i = 0; i < red; i++) {
+        matrica[i] = new int[kolona];
+    }
+
+    popunjavanje(matrica, red, kolona, ciljaniRed, ciljanaKolona, target);
+
+    ispis(matrica, red, kolona);
+
+    for (int i = 0; i < red; i++) {
+        delete[] matrica[i];
+    }
+    delete[] matrica;
+
+    system("pause");
+}

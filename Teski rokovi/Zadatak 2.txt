@@ -1,0 +1,109 @@
+#include <iostream>
+#include <ctime>
+using namespace std;
+
+/*Napisati program u kojem korisnik unosi
+broj redova i kolona matrice, pri čemu broj 
+redova i kolona mora biti veći od 0. 
+Dinamički se alocira memorija za matricu 
+odgovarajućih dimenzija, koja se zatim 
+popunjava slučajnim vrijednostima iz opsega 
+[0-9]. Zatim se formira druga matrica istih 
+dimenzija, gdje se sve vrijednosti u svakom 
+redu postavljaju na maksimalnu vrijednost 
+odgovarajućeg reda iz prve matrice. Obavezno 
+uraditi sve neophodne dealokacije.
+
+Primjer korištenja:
+
+yaml
+Copy code
+Unesite broj redova: 5  
+Unesite broj kolona: 5  
+
+Prva matrica:  
+9 9 5 1 7  
+6 6 6 9 9  
+1 2 3 3 2  
+3 3 3 3 3  
+3 3 3 3 3  
+
+Druga matrica (popunjena maksimalnim vrijednostima iz redova prve matrice):  
+9 9 9 9 9  
+9 9 9 9 9  
+3 3 3 3 3  
+3 3 3 3 3  
+3 3 3 3 3  */
+
+
+void unos(int* niz[], int red, int kolona) {
+    for (int i = 0; i < red; i++)
+    {
+        for (int j = 0; j < kolona; j++)
+        {
+            niz[i][j] = rand() % 9 + 0;
+        }
+    }
+
+}
+void ispis(int* niz[], int red, int kolona) {
+    for (int i = 0; i < red; i++)
+    {
+        for (int j = 0; j < kolona; j++)
+        {
+            cout << " " << niz[i][j];
+        }
+        cout << endl;
+    }
+
+}
+int najveci(int* broj[], int red, int kolona) {
+    int najveci = 0;
+        for (int j = 0; j < kolona; j++)
+        {
+            if (najveci < broj[red][j]) {
+                najveci = broj[red][j];
+            }
+        }
+        
+    
+    return najveci;
+}
+
+void main() {
+    int red;
+    int kolona;
+
+    cout << "Unesite broj redova matrice: ";
+    cin >> red;
+    cout << "Unesite broj kolona matrice: ";
+    cin >> kolona;
+
+
+    int** matrica = new int*[red];
+    for (int i = 0; i < red; i++)
+    {
+        matrica[i] = new int[kolona];
+    }
+
+    unos(matrica, red, kolona);
+    ispis(matrica, red, kolona);
+    for (int i = 0; i < red; i++)
+    {
+        for (int j = 0; j < kolona; j++)
+        {
+            matrica[i][j] = najveci(matrica, i,kolona);
+        }
+    }
+    cout << endl;
+    for (int i = 0; i < red; i++)
+    {
+        for (int j = 0; j < kolona; j++)
+        {
+            cout << " " << matrica[i][j];
+        }
+        cout << endl;
+    }
+
+    system("pause");
+}
