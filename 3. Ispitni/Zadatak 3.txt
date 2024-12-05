@@ -1,0 +1,42 @@
+#include <iostream>
+using namespace std;
+
+/*Napisati program koji će omogućiti korisniku da unese veličinu  jednodimenzionalnog
+dinamičkog niza integer vrijednosti. Napisati  funkciju koja će taj niz popuniti serijom
+Fibonacci brojeva počevši od  broja 1. Za pronalazenje elemenata Fibonacci serije 
+obavezno koristiti  rekurzivnu funkciju. Punjenje niza se prekida kada se popuni 
+cijeli niz  ili kada se desi overflow na integer varijabli. 
+
+**(U ovom zadatku je  zabranjeno indeksirati niz uglastim zagradama. Obavezno koristiti  aritmetiku pokazivača.)***/
+void Fibonacci(long long* niz, int red, int i=2) {
+    
+    if (i >= red || *(niz + i - 1) < 0 || *(niz + i - 2) < 0)
+        return;
+
+    *(niz + i) = *(niz + i - 1) + *(niz+i-2);
+
+    Fibonacci(niz, red,i+1);
+}
+void ispis(long long* niz, int red) {
+    for (int i = 0; i < red; i++)
+    {
+        if (*(niz + i) < 0) {
+            break;
+        }
+        cout << *(niz+i) << " ";
+    }
+}
+void main() {
+    int red = 0;
+    cout << "Unesite broj redova niza: ";
+    cin >> red;
+    long long* niz = new long long[red];
+    *(niz+0) = 0;
+    *(niz+1) = 1;
+    Fibonacci(niz, red);
+    ispis(niz, red);
+
+
+ 
+    system("pause");
+}
