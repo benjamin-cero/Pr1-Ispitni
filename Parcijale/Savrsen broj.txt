@@ -1,0 +1,69 @@
+#include"iostream"
+using namespace std;
+
+
+
+
+
+bool isPerfectNumber(int n) {
+	int sum = 0;
+	for (int i = 1; i < n; i++)
+	{
+		if (n % i == 0) {
+			sum += i;
+		}
+	}
+	if (sum == n) {
+		return true;
+	}
+	return false;
+
+}
+void listPerfectNumbers(int n, int& zadnjiSavrsen) {
+	bool provjera = false;
+	for (int i = 2; i <= n; i++)
+	{
+		if (isPerfectNumber(i) == true) {
+			cout << "Savrsen broj: " << i << endl;
+			provjera = true;
+			zadnjiSavrsen = i;
+		}
+	}
+	if (provjera == false) {
+		cout << "U intervalu od 2 do " << n << " ne postoji ni jedan savrsen broj " << endl;
+	}
+}
+int biggestDivisor(int ZadnjiSavrsen) {
+	if (ZadnjiSavrsen == 0) {
+		return 0;
+	}
+	int najveci = 0;
+	for (int i = 1; i < ZadnjiSavrsen; i++)
+	{
+		if (ZadnjiSavrsen % i == 0) {
+			najveci = i;
+		}
+	}
+		return najveci;
+	
+}
+void main() {
+	int n;
+	int zadnjiSavrsen;
+	cout << "Unesite n: ";
+	cin >> n;
+
+	while (n <= 0 || n > 10000)
+	{
+		cout << "Broj mora biti veci od n manji od 10 000: ";
+		cin >> n;
+	}
+
+	listPerfectNumbers(n, zadnjiSavrsen);
+
+	if (biggestDivisor(zadnjiSavrsen) != 0) {
+		cout << "Najveci djelilac posljednjeg savrsenog broja u nizu je: " << biggestDivisor(zadnjiSavrsen) << endl;
+	}
+	
+	system("pause");
+}
