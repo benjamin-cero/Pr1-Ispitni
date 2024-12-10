@@ -1,0 +1,78 @@
+#include"iostream"
+using namespace std;
+
+
+int numberOfDigits(int x) {
+	int brojac = 0;
+	do
+	{
+		x /= 10;
+		brojac++;
+	} while (x>0);
+	return brojac;
+}
+int factorijel(int x) {
+	int fact = 1;
+	for (int i = 1; i <= x; i++)
+	{
+		fact *= i;
+	}
+	return fact;
+}
+void functionality1() {
+	int m, n;
+	cout << "Unesite m>=0 && m<=n " << endl;
+	cout << "m: ";
+	cin >> m;
+	cout << "n: ";
+	cin >> n;
+	while (m<0 || m > n)
+	{
+		cout << "m: ";
+		cin >> m;
+		cout << "n: ";
+		cin >> n;
+	}
+	for (int i = m; i <= n; i++)
+	{
+		if (numberOfDigits(i) % 2 != 0 && i%10==5) {
+			cout << i << endl;
+		}
+	}
+}
+void functionality2() {
+	int n;
+	cout << "Unesite n>0 && n <= 14: ";
+	cin >> n;
+	while (n<0 || n>14)
+	{
+		cout << "Unesite n: ";
+		cin >> n;
+	}
+	cout << "Factorijel broja " << n << " iznosi: " << factorijel(n) << endl;
+}
+
+
+void main() {
+	int odabir;
+		do
+		{
+			cout << "Unesite odabir 1,2 ili 3: ";
+			cin >> odabir;
+			if (odabir == 1) {
+				
+				functionality1();
+			}
+			else if (odabir == 2) {
+				functionality2();
+			}
+			else if (odabir == 3)
+			{
+				cout << "Unjeli ste opciju 3 s kojom zavrsavate program. " << endl;
+				break;
+			}
+		} while (true);
+
+
+	system("pause");
+}
