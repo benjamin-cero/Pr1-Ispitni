@@ -1,7 +1,29 @@
 #include"iostream"
 using namespace std;
 
+/*Zadatak 1:
 
+Napišite program u kojem korisnik unosi broj koji mora da zadovolji pravilo: (0 ≤ n ≤ 10 000). 
+Nakon što korisnik unese broj, potrebno je u intervalu od [2, n] ispisati sve savršene brojeve.
+Savršeni broj jeste onaj cijeli broj koji je jednak zbroju svojih djelitelja,
+uključujući i jedinicu, ali ne i samog sebe. Primjer savršenog broja jeste:
+
+Copy code
+6 = 1 + 2 + 3  
+ili  
+28 = 1 + 2 + 4 + 7 + 14  
+Nakon što ispišete sve savršene brojeve u intervalu [2, n], 
+potrebno je da pronađete djelitelj najvećeg pronađenog savršenog broja.
+Ako niste uspjeli pronaći nijedan savršen broj u zadanom intervalu, ispišite odgovarajuću poruku.
+
+Po mogućnosti možete koristiti funkcije sa sljedećim prototipom:
+
+Funkcija	           Ulazi	                        Izlaz	  Definicija
+isPerfectNumber	       num: int                         bool	  Provjerava da li je vrijednost num savršeni broj.
+listPerfectNumbers	   num: int, lastPerfect: int       void	  Ispisuje interval savršenih brojeva i spašava vrijednost posljednjeg savršenog broja u intervalu.
+biggestDivisor	       num: int	                        int	      Pronalazi i vraća najvećeg djelitelja posljednjeg savršenog broja u nizu.
+
+Upotreba gore navedenih funkcija nije obavezna.*/
 
 
 
@@ -44,8 +66,8 @@ int biggestDivisor(int ZadnjiSavrsen) {
 			najveci = i;
 		}
 	}
-		return najveci;
-	
+	return najveci;
+
 }
 void main() {
 	int n;
@@ -64,6 +86,6 @@ void main() {
 	if (biggestDivisor(zadnjiSavrsen) != 0) {
 		cout << "Najveci djelilac posljednjeg savrsenog broja u nizu je: " << biggestDivisor(zadnjiSavrsen) << endl;
 	}
-	
+
 	system("pause");
 }

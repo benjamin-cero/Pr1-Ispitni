@@ -2,13 +2,35 @@
 using namespace std;
 
 
+/*Zadatak 2:
+
+Napisati program koji omogućuje korisniku unos jedne od 3 numeričke opcije:
+
+1 - Odabir ove opcije primorava korisnika na unos dvije cjelobrojne vrijednosti m i n
+, pri čemu mora biti ispoštovano ograničenje (0 ≤ m ≤ n). 
+Program treba ispisati sve brojeve u intervalu [m, n] koji imaju neparan broj cifara i koji se završavaju sa brojem 5, npr. 5, 325, 22535 itd.
+2 - Odabir ove opcije primorava korisnika na unos jedne cjelobrojne vrijednosti n, za koju važi ograničenje 1 < n ≤ 14.
+Program treba da ispiše faktorijel od unesenog broja.
+3 - Odabir ove opcije označava izlaz iz programa.
+Ukoliko korisnik odabere opciju koja nije nijedna od tri navedene, program se mora nastaviti izvršavati.
+
+Po mogućnosti možete koristiti funkcije sa sljedećim prototipom:
+
+
+
+Funkcija	           Ulazi          Izlaz         Definicija
+functionality1	             	      void	       	Izvršava opciju 1.
+functionality2	             	      void	       	Izvršava opciju 2.
+numberOfDigits	       x: int	      int		    Računa broj cifara proslijeđenog broja.
+factorial	           x: int         int	        Računa faktorijel.*/
+
 int numberOfDigits(int x) {
 	int brojac = 0;
 	do
 	{
 		x /= 10;
 		brojac++;
-	} while (x>0);
+	} while (x > 0);
 	return brojac;
 }
 int factorijel(int x) {
@@ -35,7 +57,7 @@ void functionality1() {
 	}
 	for (int i = m; i <= n; i++)
 	{
-		if (numberOfDigits(i) % 2 != 0 && i%10==5) {
+		if (numberOfDigits(i) % 2 != 0 && i % 10 == 5) {
 			cout << i << endl;
 		}
 	}
@@ -44,7 +66,7 @@ void functionality2() {
 	int n;
 	cout << "Unesite n>0 && n <= 14: ";
 	cin >> n;
-	while (n<0 || n>14)
+	while (n < 0 || n>14)
 	{
 		cout << "Unesite n: ";
 		cin >> n;
@@ -55,23 +77,23 @@ void functionality2() {
 
 void main() {
 	int odabir;
-		do
+	do
+	{
+		cout << "Unesite odabir 1,2 ili 3: ";
+		cin >> odabir;
+		if (odabir == 1) {
+
+			functionality1();
+		}
+		else if (odabir == 2) {
+			functionality2();
+		}
+		else if (odabir == 3)
 		{
-			cout << "Unesite odabir 1,2 ili 3: ";
-			cin >> odabir;
-			if (odabir == 1) {
-				
-				functionality1();
-			}
-			else if (odabir == 2) {
-				functionality2();
-			}
-			else if (odabir == 3)
-			{
-				cout << "Unjeli ste opciju 3 s kojom zavrsavate program. " << endl;
-				break;
-			}
-		} while (true);
+			cout << "Unjeli ste opciju 3 s kojom zavrsavate program. " << endl;
+			break;
+		}
+	} while (true);
 
 
 	system("pause");
