@@ -1,0 +1,134 @@
+#include <iostream>
+#include <ctime>
+using namespace std;
+
+void Unos(int** matrica, int red, int kolona) {
+    for (int i = 0; i < red; i++) {
+        for (int j = 0; j < kolona; j++) {
+            matrica[i][j] = rand() % 15 + 1;
+        }
+    }
+}
+
+void Ispis(int** matrica, int red, int kolona) {
+    for (int i = 0; i < red; i++) {
+        for (int j = 0; j < kolona; j++) {
+            cout << i << "." << j << ".  " << matrica[i][j] << "   ";
+        }
+        cout << endl;
+    }
+}
+
+void Suma(int** mat1, int red1, int kolona1, int** mat2, int red2, int kolona2, int** mat3) {
+    int maxRed = max(red1, red2);
+    int maxKolona = max(kolona1, kolona2);
+
+    for (int i = 0; i < maxRed; i++) {
+        for (int j = 0; j < maxKolona; j++) {
+            if (i < red1 && i < red2 && j < kolona1 && j < kolona2) {
+                mat3[i][j] = mat1[i][j] + mat2[i][j];
+            }
+            else if (i < red1 && j < kolona1) {
+                mat3[i][j] = mat1[i][j];
+            }
+            else if (i < red2 && j < kolona2) {
+                mat3[i][j] = mat2[i][j];
+            }
+            else {
+                mat3[i][j] = 0;
+            }
+        }
+    }
+}
+
+void IspisMat3(int** matrica, int red, int kolona) {
+    for (int i = 0; i < red; i++) {
+        for (int j = 0; j < kolona; j++) {
+            if (matrica[i][j] != 0) {
+                cout << matrica[i][j] << " ";
+            }
+            else {
+                cout << "  ";
+            }
+        }
+        cout << endl;
+    }
+}
+
+int sumaDijagonale(int** matrica, int red, int kolona) {
+    int suma = 0;
+    int brojac = kolona;
+    for (int i = 0; i < red; i++) {
+        for (int j = 0; j < kolona; j++) {
+            if (j == brojac) { 
+                suma += matrica[i][j];
+            }
+        }
+        brojac--;
+    }
+
+
+    return suma;
+}
+void main() {
+    srand(time(0));
+
+    int red1, kolona1, red2, kolona2;
+
+    cout << "Unesite broj redova za prvu matricu: ";
+    cin >> red1;
+    cout << "Unesite broj kolona za prvu matricu: ";
+    cin >> kolona1;
+    cout << "Unesite broj redova za drugu matricu: ";
+    cin >> red2;
+    cout << "Unesite broj kolona za drugu matricu: ";
+    cin >> kolona2;
+
+    int maxRed = max(red1, red2);
+    int maxKolona = max(kolona1, kolona2);
+
+    int** mat1 = new int* [red1];
+    for (int i = 0; i < red1; i++) {
+        mat1[i] = new int[kolona1];
+    }
+    int** mat2 = new int* [red2];
+    for (int i = 0; i < red2; i++) {
+        mat2[i] = new int[kolona2];
+    }
+    int** mat3 = new int* [maxRed];
+    for (int i = 0; i < maxRed; i++) {
+        mat3[i] = new int[maxKolona];
+    }
+    Unos(mat1, red1, kolona1);
+    Unos(mat2, red2, kolona2);
+
+    cout << "\nPrva matrica:\n";
+    Ispis(mat1, red1, kolona1);
+
+    cout << "\nDruga matrica:\n";
+    Ispis(mat2, red2, kolona2);
+
+    Suma(mat1, red1, kolona1, mat2, red2, kolona2, mat3);
+    cout << "\nRezultujuca matrica (suma):\n";
+    IspisMat3(mat3, maxRed, maxKolona);
+
+    if (red1 == kolona1 && red2 == kolona2) {
+        if (sumaDijagonale(mat1, red1, kolona1) > sumaDijagonale(mat2, red2, kolona2)) 
+            cout << "Matrica1 ima vecu sumu vrijednosti na brojevima sporedne dijagonale " << endl;
+        else
+            cout << "Matrica2 ima vecu sumu vrijednosti na brojevima sporedne dijagonale " << endl;
+    }
+
+    for (int i = 0; i < red1; i++) 
+        delete[] mat1[i];
+    delete[] mat1;
+    for (int i = 0; i < red2; i++) 
+        delete[] mat2[i];
+    delete[] mat2;
+    for (int i = 0; i < maxRed; i++) 
+        delete[] mat3[i];
+    delete[] mat3;
+
+
+    system("pause");
+}
