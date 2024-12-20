@@ -1,0 +1,89 @@
+#include <iostream>
+#include <ctime>
+using namespace std;
+
+//================================================== = POSTAVKA 6
+//Neka je data matrica M proizvoljnih dimenzija koje određuje korisnik.
+//Popuniti matricu M slučajnim vrijednostima u opsegu[6 - 10]
+//Napisati dvije funkcije :
+//->getAveragesByRow[funkcija koja treba da vrati prosjeke redova]
+//->getAveragesByColumn[funkcija koja treba da vrati prosjeke kolona
+//CODE 6 ==================================================================== =
+
+int** Alokacija(int red, int kolona) {
+	int** m = new int* [red];
+	for (int i = 0; i < red; i++)
+		m[i] = new int[kolona];
+	return m;
+}
+void Unos(int** matrica, int red, int kolona) {
+	for (int i = 0; i < red; i++)
+		for (int j = 0; j < kolona; j++)
+			matrica[i][j] = rand() % 5 + 6;
+}
+void Ispis(int** matrica, int red, int kolona) {
+	for (int i = 0; i < red; i++) {
+		for (int j = 0; j < kolona; j++)
+			cout << "   " << matrica[i][j] << " ";
+		cout << endl;
+	}
+}
+void Dealokacija(int** matrica, int red) {
+	for (int i = 0; i < red; i++) {
+		delete[] matrica[i];
+		matrica[i] = nullptr;
+	}
+	delete[] matrica;
+}
+float getAveragesByRow(int** m, int red, int kolona) {
+	int brojac = 0;
+	int suma = 0;
+		for (int i = 0; i < kolona; i++)
+		{
+			suma += m[red][i];
+			brojac++;
+		}
+		return float(suma)/brojac;
+}
+
+float getAveragesByColumn(int** m, int red, int kolona) {
+	int brojac = 0;
+	int suma = 0;
+	for (int i = 0; i < red; i++)
+	{
+		suma += m[i][kolona];
+		brojac++;
+	}
+	return float(suma) / brojac;
+}
+void main() {
+	srand(time(NULL));
+	int red = 1, kolona = 1;
+	do
+	{
+		cout << "Unesite broj redova: " << endl;
+		cin >> red;
+		cout << "Unesite broj kolona: " << endl;
+		cin >> kolona;
+
+	} while (red < 1 || kolona < 1);
+
+	int** m1 = Alokacija(red, kolona);
+	Unos(m1, red, kolona);
+	Ispis(m1, red, kolona);
+
+	cout << "Prosjeci po redovima matrice: " << endl;
+	for (int i = 0; i < red; i++)
+	{
+		cout << "Prosjek za red " << i << " = " << getAveragesByRow(m1, i, kolona) << endl;
+	}
+	cout << "Prosjeci po kolonama matrice: " << endl;
+	for (int i = 0; i < kolona; i++)
+	{
+		cout << "Prosjek za red " << i << " = " << getAveragesByColumn(m1, red, i) << endl;
+	}
+
+	Dealokacija(m1, red);
+
+	system("pause");
+}

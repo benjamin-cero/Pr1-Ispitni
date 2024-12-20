@@ -1,0 +1,84 @@
+#include <iostream>
+using namespace std;
+
+
+//================================================== = POSTAVKA 5
+//Napisati program za sabiranje matrica proizvoljnih dimenzija.
+//Neka su date dvije matrice A i B, koje je potrebno popuniti slučajnim vrijednostima u opsegu[1 - 5]
+//Formirati matricu C kao zbir matrica A i B :
+//C[i, j] = A[i, j] + B[i, j]
+//CODE 5 ==================================================================== =
+
+
+void Unos(int**m, int red, int kolona) {
+	for (int i = 0; i < red; i++)
+	{
+		for (int j = 0; j < kolona; j++)
+		{
+			m[i][j] = rand() % 5 + 1;
+		}
+	}
+}
+int** Alokacija(int red, int kolona) {
+	int** m = new int* [red];
+	for (int i = 0; i < red; i++)
+		m[i] = new int[kolona];
+	return m;
+}
+
+void Ispis(int** matrica, int red, int kolona) {
+	for (int i = 0; i < red; i++) {
+		for (int j = 0; j < kolona; j++)
+			cout << "   " << matrica[i][j] << " ";
+		cout << endl;
+	}
+}
+void Dealokacija(int** matrica, int red) {
+	for (int i = 0; i < red; i++) {
+		delete[] matrica[i];
+		matrica[i] = nullptr;
+	}
+	delete[] matrica;
+}
+int** Sumiranje(int** m1, int** m2, int rows, int columns) {
+	int** m3 = Alokacija(rows, columns);
+	for (int i = 0; i < rows; i++)
+		for (int j = 0; j < columns; j++)
+			m3[i][j] = m1[i][j] + m2[i][j];
+	return m3;
+}
+void main() {
+	srand(time(NULL));
+	int red = 1, kolone = 1;
+	do
+	{
+		cout << "Unesite broj redova: " << endl;
+		cin >> red;
+		cout << "Unesite broj kolona: " << endl;
+		cin >> kolone;
+
+	} while (red < 1 || kolone < 1);
+
+	int** m1 = Alokacija(red, kolone);
+	int** m2 = Alokacija(red, kolone);
+
+	int from = 1, to = 5;
+	Unos(m1, red, kolone);
+	Unos(m2, red, kolone);
+
+	cout << "Matrica 1: " << endl;
+	Ispis(m1, red, kolone);
+	cout << "Matrica 2: " << endl;
+	Ispis(m2, red, kolone);
+
+	int** m3 = Sumiranje(m1, m2, red, kolone);
+	cout << "Zbirna matrica: " << endl;
+	Ispis(m3, red, kolone);
+
+	Dealokacija(m1, red);
+	Dealokacija(m2, red);
+	Dealokacija(m3, red);
+
+
+	system("pause");
+}
