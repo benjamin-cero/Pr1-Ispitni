@@ -1,0 +1,49 @@
+#include <iostream>
+#include <ctime>
+using namespace std;
+
+
+/* 1.	Napisati program koji simulira izvlacenje 3 karte.Karte mogu imati vrijednosti od 1 do 14 (koristeci rand() funkciju).
+Cilj je da se dobiju 3 vrijednosti karata koje su medjusobno u razmaku po 5 (npr 1, 6, 11).
+Program treba da ispise koliko je pokusaja bilo potrebno da se te ostvari i konacnu kombinaciju vrijednosti karata
+(nacrtati i dijagram).. */
+
+
+bool ProvjeraRazlike(int k1, int k2, int k3) {
+	int r1 = abs(k1 - k2);
+	int r2 = abs(k2 - k3);
+	int r3 = abs(k1 - k3);
+
+	bool provjera = (r1 == 5 && r2 == 5 && r3 == 10) ||
+		(r1 == 5 && r2 == 10 && r3 == 5) ||
+		(r1 == 10 && r2 == 5 && r3 == 5);
+
+	return provjera;
+}
+
+
+void main() {
+	srand((time(0)));
+
+	int brojac = 0;
+
+	int k1;
+	int k2;
+	int k3;
+
+	do
+	{
+		k1 = rand() % 14 + 1;
+		k2 = rand() % 14 + 1;
+		k3 = rand() % 14 + 1;
+		brojac++;
+
+		cout << k1 << " " << k2 << " " << k3 << endl;
+
+	} while (ProvjeraRazlike(k1, k2, k3) == false);
+
+
+	cout << brojac << " Pokusaja je bilo potrebno do rezultata " << k1 << " " << k2 << " " << k3 << endl;
+
+	system("pause");
+}
