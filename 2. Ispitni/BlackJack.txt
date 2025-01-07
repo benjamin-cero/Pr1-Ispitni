@@ -1,0 +1,63 @@
+#include <iostream>
+#include <ctime>
+#include <cstdlib>
+
+using namespace std;
+
+int getRandomValue(int from, int to) {
+    return rand() % (to - from + 1) + from;
+}
+
+void main() {
+    srand(time(0));
+
+
+    int suma = 0;
+    int karta = getRandomValue(1, 14);
+    cout << "Karta 1: " << karta << endl;
+    suma += karta;
+    karta = getRandomValue(1, 14);
+    cout << "Karta 2: " << karta << endl;
+    suma += karta;
+
+    int brojKarata_x = 2;
+
+    cout << "Pocetna suma igraca: " << suma << endl;
+
+    if (suma > 21) {
+        cout << "Igrac x je izgubio jer je pocetna suma veca od 21!" << endl;
+        return;
+    }
+    else
+        while (suma <= 21) {
+            char odluka;
+            cout << "Igrac x, zelite li povuci novu kartu? (y/n): ";
+            cin >> odluka;
+
+            if (odluka == 'n' && suma >= 15) {
+                cout << "Igrac je pobjedio" << endl;
+                break;
+            }
+            else if (odluka == 'n' && suma < 15) {
+                cout << "Igrac je pobjedio " << endl;
+                break;
+            }
+            else if (brojKarata_x == 7) {
+                cout << "Igrac je pobjedio " << endl;
+                break;
+            }
+            brojKarata_x++;
+            karta = getRandomValue(1, 14);
+            cout << "Karta " << brojKarata_x << ": " << karta << endl;
+            suma += getRandomValue(1, 14);
+            cout << "Suma igraca x: " << suma << endl;
+
+            if (suma > 21) {
+                cout << "Igrac x je izgubio jer je prekoračio sumu 21!" << endl;
+                return;
+            }
+        }
+
+    system("pause");
+
+}

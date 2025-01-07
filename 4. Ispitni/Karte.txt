@@ -1,0 +1,79 @@
+#include <iostream>
+#include <ctime>
+#include <cstring>
+using namespace std;
+
+struct karta {
+    char* vrijednost = nullptr;
+    char* znak = nullptr;
+
+    void unos(const char* v, const char* z) {
+        vrijednost = new char[strlen(v)+1];
+        strcpy_s(vrijednost,strlen(v) + 1, v);
+         
+        znak = new char[strlen(z) + 1];
+        strcpy_s(znak,strlen(z) + 1, z);
+    }
+
+    void ispis() {
+        cout << vrijednost << " " << znak;
+    }
+
+    void dealokacija() {
+        delete[] vrijednost;
+        delete[] znak;
+    }
+
+
+};
+
+void InicijalizacijaSpila(karta* spil) {
+    const char* Vrijednosti[] = {"2","3","4","5","6","7","8","9","10","J","Q","K","A" };
+    const char* Znakovi[] = {"Tref","Karo","Srce","Pik"};
+    int index = 0;
+
+    for (int i = 0; i < 13; i++)
+    {
+        for (int j = 0; j < 4; j++)
+        {
+            spil[index].unos(Vrijednosti[i], Znakovi[j]);
+            index++;
+        }
+    }
+}
+void izvuciKartu(karta spil[], int velicinaSpila, int brojKarata) {
+    bool izvuceno[52] = { false };
+
+    for (int i = 1; i <= 3; i++){
+        cout << "Izvlacenje " << i << ": " << endl;
+        int brojacIzvucenih = 0;
+
+        while (brojacIzvucenih < brojKarata){
+            int indeks = rand() % velicinaSpila;
+
+            if (izvuceno[indeks] == false) {
+                izvuceno[indeks] = true;
+                spil[indeks].ispis();
+                cout << endl;
+                brojacIzvucenih++;
+            }
+        }
+        cout << endl;
+
+    }
+}
+
+void main() {
+    srand(time(0));
+    int velicinaSpila = 52;
+    karta spil[52];
+
+    InicijalizacijaSpila(spil);
+    izvuciKartu(spil, velicinaSpila, 5);
+
+    for (int i = 0; i < velicinaSpila; i++)
+    {
+        spil[i].dealokacija();
+    }
+    system("pause");
+}

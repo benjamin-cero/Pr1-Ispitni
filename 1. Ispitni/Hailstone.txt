@@ -1,0 +1,30 @@
+#include <iostream>
+#include <ctime>
+
+using namespace std;
+
+int hailstone(int N) {
+    int steps = 0;
+    while (N != 1) {
+        cout << N << " ";
+        if (N % 2 == 0) {
+            N = N / 2;  
+        }
+        else {
+            N = 3 * N + 1;
+        }
+        steps++;
+    }
+    return steps;
+}
+
+void main() {
+    srand(time(0));
+
+    int N = rand() % 10 + 1;
+    cout << "Generisani broj N: " << N << endl;
+    int steps = hailstone(N);
+    cout << "Broj koraka dok sekvenca ne dostigne 1: " << steps << endl;
+
+    system("pause");
+}
