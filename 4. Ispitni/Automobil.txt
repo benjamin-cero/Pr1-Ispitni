@@ -1,0 +1,138 @@
+#include <iostream>
+#include <ctime>
+#include <cstring>
+using namespace std;
+
+
+/*Data je struktura:
+struct Automobil
+{
+    char *Naziv; //niz karaktera
+    char *Marka; //niz karaktera
+    char *Tip; //niz karaktera
+    int *godinaProizvodnje; //u rangu 2005-2022
+    float *potrosnjaNaStoKm;
+};
+
+Kreirati dvodimenzionalni dinamički niz čiji su elementi objekti tipa Automobil.
+Omogućiti korisniku unos dimenzija niza. Kreirajte funkcije:
+· za unos obilježja automobila – neka funkcija prima pokazivač na student.
+Obavezno automatizirati unos tako da se u sva obilježja upisuju random vrijednosti.
+Možete koristiti priloženo rješenje za randomiziranje niza karaktera te int i float vrijednosti,
+ili randomiziranje napraviti sami. Zadatak se neće smatrati ispravnim ukoliko ovo nije urađeno.,
+· za ispis kompletnog 2D niza sa svim obilježjima svih automobila,
+· Pretpostaviti da redovi predstavljaju firme a kolone automobile u firmi.
+Pronaći indeks firme sa najmanjom prosječnom potrošnjim automobila.
+U ovom zadatku je zabranjeno indexirati elemente niza uglastim zagradama.
+Obavezno koristiti aritmetiku pokazivaca*/
+
+
+struct Automobil {
+    char* Naziv = nullptr;
+    char* Marka = nullptr;
+    char* Tip = nullptr;
+    int* godinaProizvodnje = nullptr;
+    float* potrosnjaNaStoKm = nullptr;
+
+    void deallocateMemory() {
+        delete[] Naziv;
+        delete[] Marka;
+        delete[] Tip;
+        delete godinaProizvodnje;
+        delete potrosnjaNaStoKm;
+    }
+};
+
+char* generateRandomString(int length) {
+    const char charset[] = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    char* result = new char[length + 1];
+    for (int i = 0; i < length; ++i) {
+        result[i] = charset[rand() % (sizeof(charset) - 1)];
+    }
+    result[length] = '\0';
+    return result;
+}
+
+void inputAutomobil(Automobil* automobil) {
+    automobil->Naziv = generateRandomString(10);
+    automobil->Marka = generateRandomString(8);
+    automobil->Tip = generateRandomString(6);
+    automobil->godinaProizvodnje = new int(2005 + rand() % 20); 
+    automobil->potrosnjaNaStoKm = new float(5.0f + (rand() % 101) / 10.0f); 
+}
+
+void displayAutomobil(const Automobil* automobil) {
+    cout << "Naziv: " << automobil->Naziv
+        << ", Marka: " << automobil->Marka
+        << ", Tip: " << automobil->Tip
+        << ", Godina proizvodnje: " << *automobil->godinaProizvodnje
+        << ", Potrošnja: " << *automobil->potrosnjaNaStoKm << " L" << endl;
+}
+
+int findMinAvgFirma(Automobil** automobili, int rows, int cols) {
+    int minIndex = 0;
+    float minAvg = 0;
+
+    for (int j = 0; j < cols; ++j) {
+        minAvg += *(*(automobili + 0) + j)->potrosnjaNaStoKm;
+    }
+    minAvg /= cols;
+
+    for (int i = 1; i < rows; ++i) {
+        float avg = 0;
+        for (int j = 0; j < cols; ++j) {
+            avg += *(*(automobili + i) + j)->potrosnjaNaStoKm;
+        }
+        avg /= cols;
+        if (avg < minAvg) {
+            minAvg = avg;
+            minIndex = i;
+        }
+    }
+    return minIndex;
+}
+
+void main() {
+    srand(time(0)); 
+
+    int rows, cols;
+    cout << "Unesite broj firmi (redova): ";
+    cin >> rows;
+    cout << "Unesite broj automobila po firmi (kolona): ";
+    cin >> cols;
+
+    Automobil** automobili = new Automobil * [rows];
+    for (int i = 0; i < rows; ++i) {
+        automobili[i] = new Automobil[cols];
+    }
+
+    for (int i = 0; i < rows; ++i) {
+        for (int j = 0; j < cols; ++j) {
+            inputAutomobil(*(automobili + i) + j);
+        }
+    }
+
+    cout << "\nPodaci o automobilima:\n";
+    for (int i = 0; i < rows; ++i) {
+        cout << "Firma " << i + 1 << ":\n";
+        for (int j = 0; j < cols; ++j) {
+            displayAutomobil(*(automobili + i) + j);
+        }
+        cout << endl;
+    }
+
+    int minIndex = findMinAvgFirma(automobili, rows, cols);
+    cout << "Firma s najmanjom prosječnom potrošnjom je firma " << minIndex + 1 << endl;
+
+    for (int i = 0; i < rows; ++i) {
+        for (int j = 0; j < cols; ++j) {
+            (*(automobili + i) + j)->deallocateMemory();
+        }
+        delete[] automobili[i];
+    }
+    delete[] automobili;
+
+    system("pause");
+}
+
+
