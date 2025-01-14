@@ -1,0 +1,52 @@
+#include <iostream>
+using namespace std;
+	//1.	Omogućiti unos prirodnog broja N(N > 0).Nakon toga generisati Hailstone - ove brojeve(sekvencu) za uneseno N i prebrojati koliko je koraka potrebno dok //sekvenca ne dosegne vrijednost 1.
+//Napomena: Za rješenje zadatka obavezno koristiti rekurzivnu funkciju.
+//Input : N = 7
+//Output :
+//	Hailstone Numbers : 7, 22, 11, 34, 17, 52, 26, 13, 40, 20, 10, 5, 16, 8, 4, 2, 1
+//	No.of steps Required : 17
+//	Objašnjenje :
+//	Za N = 7.
+//	Brojevi će biti izračunati na sljedeći način :
+//7 // pocetna vrijednost
+//3 * 7 + 1 = 22    // Posto je neparan broj
+//22 / 2 = 11        // Paran broj
+//3 * 11 + 1 = 34 // Neparan broj
+//// .... i sve tako do 1
+
+int HailstoneNumbers(int N, int brojac = 0)
+{
+	brojac++;
+	cout << N << endl;
+	if (N == 1) {
+		return brojac;
+	}
+	if (N % 2 == 0) {
+		return HailstoneNumbers(N / 2, brojac);
+	}
+	else
+	{
+		return HailstoneNumbers(3*N+1, brojac);
+
+	}
+}
+
+void main(){
+	int N;
+	cout << "Unesite N>0: ";
+	cin >> N;
+
+		
+	while (N < 1) {
+		cout << "Enter the value of N: ";
+		cin >> N;
+	}
+	int x;
+
+	x = HailstoneNumbers(N);
+
+	cout << endl;
+	cout << "Number of Steps: " << x << endl;
+	system("Pause");
+}
