@@ -24,3 +24,26 @@ void main() {
 
     system("pause");
 }
+
+//#include <iostream>
+//using namespace std;
+//
+//void fibonacciSeries(int n, int current = 0, int a = 0, int b = 1) {
+//    if (current == n) return; 
+//
+//    cout << a << " ";
+//
+//    fibonacciSeries(n, current + 1, b, a + b);
+//}
+//
+//void main() {
+//    int n;
+//    cout << "Unesite broj elemenata Fibonacci niza: ";
+//    cin >> n;
+//
+//    cout << "Fibonacci niz do " << n << "-tog elementa:\n";
+//    fibonacciSeries(n);
+//
+//    cout << endl;
+//    system("pause");
+//}
