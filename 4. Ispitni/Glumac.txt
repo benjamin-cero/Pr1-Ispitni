@@ -1,0 +1,112 @@
+#include <iostream>
+using namespace std;
+
+struct Glumac {
+    char* ime = nullptr;
+    char* prezime = nullptr;
+    char drzava[40] = "";
+    int brojFilmova = 0;
+    int brojKorisnika = 0;
+    int** ocjene = nullptr;
+
+    void unos();
+    void ispis();
+    void getAverageByUsers();
+    void dealokacija();
+};
+
+// Funkcija za unos podataka
+void Glumac::unos() {
+    ime = new char[50+1];
+    prezime = new char[50];
+
+    cout << "Unesite ime: ";
+    cin.get(ime, 50);
+    ime[50] = '\0';
+    cout << "Unesite prezime: ";
+    cin.ignore();
+    cin.get(prezime, 50);
+
+    cout << "Unesite drzavu: ";
+    cin >> drzava;
+
+    cout << "Unesite broj filmova: ";
+    cin >> brojFilmova;
+
+    cout << "Unesite broj korisnika: ";
+    cin >> brojKorisnika;
+
+    // Alokacija matrice ocjena
+    ocjene = new int* [brojFilmova];
+    for (int i = 0; i < brojFilmova; i++) {
+        ocjene[i] = new int[brojKorisnika];
+    }
+    for (int i = 0; i < brojFilmova; i++) {
+        cout << "Unesite ocjene za film " << i + 1 << ": ";
+        for (int j = 0; j < brojKorisnika; j++) {
+            cin >> ocjene[i][j];
+        }
+    }
+}
+
+// Funkcija za ispis podataka
+void Glumac::ispis() {
+    cout << "Ime: " << ime << endl;
+    cout << "Prezime: " << prezime << endl;
+    cout << "Drzava: " << drzava << endl;
+    cout << "Broj filmova: " << brojFilmova << endl;
+    cout << "Broj korisnika: " << brojKorisnika << endl;
+
+    for (int i = 0; i < brojFilmova; i++) {
+        cout << "Ocjene za film " << i + 1 << ": " << endl;
+        for (int j = 0; j < brojKorisnika; j++) {
+            cout << ocjene[i][j] << " ";
+        }
+        cout << endl;
+    }
+}
+
+// Funkcija za izracunavanje prosjecnih ocjena po korisniku
+void Glumac::getAverageByUsers() {
+    double* prosjeci = new double[brojKorisnika] {};
+
+    for (int i = 0; i < brojFilmova; i++) {
+        for (int j = 0; j < brojKorisnika; j++) {
+            prosjeci[j] += ocjene[i][j];
+        }
+    }
+
+    cout << "Prosjecne ocjene po korisnicima: ";
+    for (int j = 0; j < brojKorisnika; j++) {
+        prosjeci[j] /= brojFilmova;
+        cout << prosjeci[j] << " ";
+    }
+    cout << endl;
+
+    delete[] prosjeci;
+    prosjeci = nullptr;
+}
+
+// Funkcija za dealokaciju memorije
+void Glumac::dealokacija() {
+    delete[] ime;
+    ime = nullptr;
+    delete[] prezime;
+    prezime = nullptr;
+
+    for (int i = 0; i < brojFilmova; i++) {
+        delete[] ocjene[i];
+    }
+    delete[] ocjene;
+    ocjene = nullptr;
+}
+
+int main() {
+    Glumac g;
+    g.unos();
+    g.ispis();
+    g.getAverageByUsers();
+    g.dealokacija();
+
+    return 0;
+}
