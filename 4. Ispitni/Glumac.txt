@@ -101,12 +101,12 @@ void Glumac::dealokacija() {
     ocjene = nullptr;
 }
 
-int main() {
+void main() {
     Glumac g;
     g.unos();
     g.ispis();
     g.getAverageByUsers();
     g.dealokacija();
 
-    return 0;
+    system("pause");
 }
