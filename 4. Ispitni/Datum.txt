@@ -1,0 +1,152 @@
+#include <iostream>
+using namespace std;
+
+struct Datum {
+    int dan;
+    int mjesec;
+    int godina;
+
+    // Unos datuma
+    void unos() {
+        do {
+            cout << "Unesite dan, mjesec i godinu: ";
+            cin >> dan >> mjesec >> godina;
+        } while (isValid() == false);  // Ponavljamo unos dok datum nije validan
+    }
+
+    // Ispis datuma
+    void ispis() {
+        cout << dan << "." << mjesec << "." << godina << endl;
+    }
+
+    // Provjera prijestupne godine
+    bool JePrestupna(int year) {
+        if (year % 4 == 0 && (year % 100 != 0 || year % 400 == 0)) {
+            return true;
+        }
+        return false;
+    }
+
+    // Funkcija za broj dana u mjesecu
+    int daniuMjesecu(int month, int year) {
+        int daysInMonth[] = { 0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+        if (month == 2 && JePrestupna(year) == true) {
+            return 29;
+        }
+        return daysInMonth[month];
+    }
+
+    // Validacija datuma
+    bool isValid() {
+        if (mjesec < 1 || mjesec > 12) {
+            return false; // Provjera mjeseca
+        }
+        if (dan < 1 || dan > daniuMjesecu(mjesec, godina)) {
+            return false; // Provjera dana
+        }
+        return true;
+    }
+
+    // Pretvara datum u broj dana od 01.01.0000
+    int toInt() {
+        int totalDays = godina * 365 + dan;
+
+        int daysInMonth[] = { 0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+        for (int i = 1; i < mjesec; i++) {
+            totalDays += daysInMonth[i];
+        }
+
+        // Dodavanje dana za prijestupne godine
+        for (int i = 1; i < godina; i++) {
+            if (JePrestupna(i)) totalDays++;
+        }
+
+        return totalDays;
+    }
+
+    
+};
+
+// Funkcija koja vraća stariji datum
+Datum min(Datum d1, Datum d2) {
+    if (d1.toInt() < d2.toInt()){
+        return d1;
+    }
+    return d2;
+}
+
+// Funkcija koja vraća noviji datum
+Datum max(Datum d1, Datum d2) {
+    if (d1.toInt() > d2.toInt()) {
+        return d1;
+    }
+    return d2;
+}
+
+// Funkcija koja računa razliku izmedu dva datuma u danima
+int getDifferenceBetween(Datum d1, Datum d2) {
+    return abs(d1.toInt() - d2.toInt());
+}
+
+// Funkcija koja pronalazi najblizi datum iz niza
+Datum getClosestDate(Datum* datumi, int size, Datum target) {
+    Datum closest = datumi[0];
+    int minDiff = getDifferenceBetween(datumi[0], target);
+
+    for (int i = 1; i < size; i++) {
+        int diff = getDifferenceBetween(datumi[i], target);
+        if (diff < minDiff) {
+            minDiff = diff;
+            closest = datumi[i];
+        }
+    }
+
+    return closest;
+}
+
+void main() {
+    int vel;
+
+    // Unos veličine niza
+    cout << "Unesite broj datuma: ";
+    cin >> vel;
+
+    // Kreiranje dinamičkog niza datuma
+    Datum* datumi = new Datum[vel];
+
+    // Unos datuma za svaki objekt u nizu
+    for (int i = 0; i < vel; i++) {
+        cout << "Unesite datum " << i + 1 << ":" << endl;
+        datumi[i].unos();
+    }
+
+    // Ispis svih unesenih datuma
+    cout << "\nUneseni datumi su:" << endl;
+    for (int i = 0; i < vel; i++) {
+        datumi[i].ispis();
+    }
+
+    // Unos target datuma
+    Datum target;
+    cout << "\nUnesite target datum:" << endl;
+    target.unos();
+
+    // Pronalazenje najblizeg datuma iz niza
+    Datum closest = getClosestDate(datumi, vel, target);
+    cout << "\nNajblizi datum target datumu je: ";
+    closest.ispis();
+
+    // Ispis starijeg i novijeg datuma
+    Datum stariji = min(datumi[0], datumi[1]);
+    Datum noviji = max(datumi[0], datumi[1]);
+
+    cout << "\nStariji datum izmedu prvog i drugog datuma je: ";
+    stariji.ispis();
+
+    cout << "Noviji datum izmedu prvog i drugog datuma je: ";
+    noviji.ispis();
+
+    delete[] datumi;
+
+    system("pause");
+}
