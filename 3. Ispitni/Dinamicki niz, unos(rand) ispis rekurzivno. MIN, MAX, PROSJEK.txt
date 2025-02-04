@@ -1,0 +1,60 @@
+#include<iostream>
+#include<ctime>
+using namespace std;
+
+
+void unos(int* niz, int red, int i = 0) {
+	if (i == red) {
+		return;
+	}
+	cout << i << ": ";
+	*(niz+i) = rand() % 104 - 5;
+	cout  << *(niz + i) << endl;
+	unos(niz, red, i + 1);
+}
+int najveciBroj(int* niz, int red,int najveci, int i = 0) {
+	if (i == red) {
+		return najveci;
+	}
+	if (*(niz + i) > najveci) {
+		najveci = *(niz + i);
+	}
+	najveciBroj(niz, red, najveci, i + 1);
+}
+int najmanjiBroj(int* niz, int red, int najmanji, int i = 0) {
+	if (i == red) {
+		return najmanji;
+	}
+	if (*(niz + i) < najmanji) {
+		najmanji = *(niz + i);
+	}
+	najmanjiBroj(niz, red, najmanji, i + 1);
+}
+float prosjek(int* niz, int red, int i = 0, float Prosjek = 0.0) {
+	if (i == red) {
+		return Prosjek / red;
+	}
+	Prosjek += *(niz + i);
+	return prosjek(niz, red, i + 1,Prosjek);
+}
+void main() {
+	srand(time(nullptr));
+	int red;
+	cout << "Unesite broj redova od 1 do 50: ";
+	cin >> red;
+	while (red<1 || red > 50)
+	{
+		cout << "Unesite broj redova od 1 do 50: ";
+		cin >> red;
+	}
+	int* niz = new int[red];
+	unos(niz,red);
+	int prvi = *(niz + 0);
+	cout << "Njaveci broj u nizu je: " << najveciBroj(niz, red, prvi) << endl;
+	cout << "najmanji broj u nizu je: " << najmanjiBroj(niz, red, prvi) << endl;
+	cout << "Prosjek iznosi = " << prosjek(niz, red) << endl;
+
+
+
+	system("pause");
+}
