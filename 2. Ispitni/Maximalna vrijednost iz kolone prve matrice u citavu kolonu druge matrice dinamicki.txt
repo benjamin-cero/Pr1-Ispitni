@@ -1,0 +1,89 @@
+#include<iostream>
+#include<ctime>
+using namespace std;
+
+/*Napisati program u kojem korisnik unosi broj redova i kolona matrice, pri cemu broj redova i kolona mora biti veci od 0. Dinamicki se alocira memorija za matricu odgovarajucih dimenzija, koja se zatim popunjava slucajnim vrijednostima iz opsega [0-9]. Zatim se formira druga matrica istih dimenzija, gdje se vrijednosti u svakoj koloni postavljaju na maksimalne vrijednosti odgovarajucih kolona iz prve matrice. Ispisati prosjecnu vrijednost druge matrice. Obavezno uraditi sve neophodne dealokacije*/
+
+
+
+void unos(int** matrica, int red, int kolona) {
+	for (int i = 0; i < red; i++)
+	{
+		for (int j = 0; j < kolona; j++)
+		{
+			matrica[i][j] = rand() % 10 + 0;
+			cout << matrica[i][j] << " ";
+		}
+		cout << endl;
+	}
+}
+int najveciuKoloni(int** matrica, int red,int kolona) {
+	int najveci = 0;
+	for (int i = 0; i < red; i++)
+	{
+		if (matrica[i][kolona] > najveci) {
+			najveci = matrica[i][kolona];
+		}
+	}
+	return najveci;
+}
+void unos2(int** matrica,int** matrica2, int red, int kolona) {
+	for (int i = 0; i < red; i++)
+	{
+		for (int j = 0; j < kolona; j++)
+		{
+			matrica2[i][j] = najveciuKoloni(matrica, red, j);
+			cout << matrica2[i][j] << " ";
+		}
+		cout << endl;
+	}
+
+}
+
+void main() {
+	srand(time(nullptr));
+	int red, kolona;
+	cout << "Unesite broj redova matrice >0: ";
+	cin >> red;
+	while (red<=0)
+	{
+		cout << "Unesite broj redova matrice >0: ";
+		cin >> red;
+	}
+	cout << "Unesite broj kolona matrice >0: ";
+	cin >> kolona;
+	while (kolona <= 0)
+	{
+		cout << "Unesite broj redova matrice >0: ";
+		cin >> kolona;
+	}
+	int** matrica = new int*[red];
+	for (int i = 0; i < red; i++)
+	{
+		matrica[i] = new int[kolona];
+	}
+	int** matrica2 = new int*[red];
+	for (int i = 0; i < red; i++)
+	{
+		matrica2[i] = new int[kolona];
+	}
+	
+	unos(matrica, red, kolona);
+	cout << "              ISPIS MATRICA2 " << endl << "--------------------------------------" << endl;
+	unos2(matrica, matrica2, red, kolona);
+
+
+	for (int i = 0; i < red; i++)
+	{
+		delete[] matrica[i];
+		matrica[i] = nullptr;
+		delete[] matrica2[i];
+		matrica2[i] = nullptr;
+	}
+	delete[] matrica;
+	matrica = nullptr;
+	delete[] matrica2;
+	matrica2 = nullptr;
+
+	system("pause");
+}
