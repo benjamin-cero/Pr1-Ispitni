@@ -1,6 +1,41 @@
 #include <iostream>
 using namespace std;
 
+// Neka je dat sljedeći prototip strukture Glumac :
+// struct Glumac {
+//     char* ime = nullptr;
+//     char* prezime = nullptr;
+//     char drzava[40] = "";
+//     int brojFilmova = 0; // označava broj redova u dinamičkoj matrici
+//     int brojKorisnika = 0; // označava broj kolonu u dinamičkoj matrici
+//     int** ocjene = nullptr; // matrica dimenzija (brojFilmova × brojKorisnika)
+//     void unos(); // funkcija clanica za alokaciju i unos vrijednosti
+//     float* getAveragesByUsers();
+//     void ispis();
+//     void dealokacije();
+// };
+// ProgramiranjeI_sylabus.doc
+// Fakultet informacijskih tehnologija
+// 9
+// Programiranje I
+// Priprema za integralni ispit
+// Uraditi implementaciju zadanih funkcija članica i po potrebi definirati i 
+// implementirati pomoćne globalne funkcije.Zatim, u main funkciji dodati sljedeće stavke :
+// •
+// Kreiranje objekta tipa Glumac
+// •
+// Poziv funkcije članice unos(funkcije koja radi alokaciju i konzolni unos)
+// •
+// Poziv funkcije članice ispis
+// •
+// Dohvaćenje niza prosječnih ocjena glumca za svakog korisnika(koristiti dinamičku memoriju)
+// •
+// Poziv funkcije za dealokaciju objekta
+// •
+// Dealokacija niza prosječnih ocjena.
+// Napomena: Nije dozvoljeno korištenje konstruktora i destruktora.
+
+
 struct Glumac {
     char* ime = nullptr;
     char* prezime = nullptr;
@@ -17,7 +52,7 @@ struct Glumac {
 
 // Funkcija za unos podataka
 void Glumac::unos() {
-    ime = new char[50+1];
+    ime = new char[50 + 1];
     prezime = new char[50];
 
     cout << "Unesite ime: ";

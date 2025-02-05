@@ -3,16 +3,58 @@
 #include <cstring>
 using namespace std;
 
+// Neka je dat sljedeći prototip strukture :
+// struct Karta {
+//     char* vrijednost = nullptr; // 2,3,4,5,6,7,8,9,10,J,Q,K,A
+//     char* znak = nullptr;       // tref, karo, srce, pik
+// 
+//     void unos();
+//     void ispis();
+//     void dealokacija();
+// };
+// Uradi implementaciju zadanih funkcija članica i po potrebi definiraj i implementiraj pomoćne globalne funkcije.Zatim, u main funkciji dodati sljedeće stavke :
+// 
+// Kreiranje dinamičkog niza objekata tipa Karta veličine 52 (za formiranje špila) i inicijalizaciju svih vrijednosti objekata niza na odgovarajuće vrijednosti karata.
+// Ponavljati proces izvlačenja 5 karata iz špila ukupno 3 puta, na način da se već izvučene karte ne smiju izvlačiti ponovo.
+// Ispisati karte za svako izvlačenje.
+// Uraditi sve neophodne dealokacije.
+// Napomena : U zadatku obavezno koristiti operator * umjesto[] prilikom dereferenciranja adresa / pokazivača.
+// 
+// Primjer ispisa :
+// 
+// Izvlačenje 1 :
+// 9 tref
+// 2 karo
+// 3 pik
+// 10 srce
+// 9 srce
+// 
+// Izvlačenje 2:
+// 4 pik
+// 7 srce
+// 8 pik
+// 3 srce
+// 6 pik
+// 
+// Izvlačenje 3:
+// 2 srce
+// 8 karo
+// J srce
+// 4 karo
+// 8 tref
+
+
+
 struct karta {
     char* vrijednost = nullptr;
     char* znak = nullptr;
 
     void unos(const char* v, const char* z) {
-        vrijednost = new char[strlen(v)+1];
-        strcpy_s(vrijednost,strlen(v) + 1, v);
-         
+        vrijednost = new char[strlen(v) + 1];
+        strcpy_s(vrijednost, strlen(v) + 1, v);
+
         znak = new char[strlen(z) + 1];
-        strcpy_s(znak,strlen(z) + 1, z);
+        strcpy_s(znak, strlen(z) + 1, z);
     }
 
     void ispis() {
@@ -22,14 +64,16 @@ struct karta {
     void dealokacija() {
         delete[] vrijednost;
         delete[] znak;
+        vrijednost = nullptr;
+        znak = nullptr;
     }
 
 
 };
 
 void InicijalizacijaSpila(karta* spil) {
-    const char* Vrijednosti[] = {"2","3","4","5","6","7","8","9","10","J","Q","K","A" };
-    const char* Znakovi[] = {"Tref","Karo","Srce","Pik"};
+    const char* Vrijednosti[] = { "2","3","4","5","6","7","8","9","10","J","Q","K","A" };
+    const char* Znakovi[] = { "Tref","Karo","Srce","Pik" };
     int index = 0;
 
     for (int i = 0; i < 13; i++)
@@ -44,11 +88,11 @@ void InicijalizacijaSpila(karta* spil) {
 void izvuciKartu(karta spil[], int velicinaSpila, int brojKarata) {
     bool izvuceno[52] = { false };
 
-    for (int i = 1; i <= 3; i++){
+    for (int i = 1; i <= 3; i++) {
         cout << "Izvlacenje " << i << ": " << endl;
         int brojacIzvucenih = 0;
 
-        while (brojacIzvucenih < brojKarata){
+        while (brojacIzvucenih < brojKarata) {
             int indeks = rand() % velicinaSpila;
 
             if (izvuceno[indeks] == false) {

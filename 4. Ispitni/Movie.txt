@@ -3,6 +3,56 @@
 #include <cstring>
 using namespace std;
 
+// Implementirati program za praćenje informacija o filmovima.
+// U kodu ispod, već je dat osnovni okvir strukture Movie.
+// Struktura Movie sadrži informacije o naslovu filma, broju ocjena i nizu ocjena koje je film dobio.
+// 
+// char* generateRandomString(int length, unsigned int seed) {
+//     const char charset[] = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+//     char* result = new char[length + 1];
+// 
+//     srand(seed);
+//     for (int i = 0; i < length; i++) {
+//         result[i] = charset[rand() % (sizeof(charset) - 1)];
+//     }
+//     result[length] = '\0';
+// 
+//     return result;
+// }
+// 
+// struct Movie {
+//     char* title = nullptr;
+//     int numRatings = rand() % 5 + 1;
+//     int* ratings = nullptr; // Array of movie ratings
+// 
+//     void init(int index) {
+//         title = generateRandomString(20, time(nullptr) + index); // Use unique seed for each movie title
+//     }
+// 
+//     float getAverageRating();
+// 
+//     void display();
+// 
+//     void deallocateMemory();
+// };
+// 
+// Uradi implementaciju zadanih funkcija članica i po potrebi definirati i implementirati pomoćne globalne funkcije.
+// Zatim, u main funkciji dodati sljedeće stavke :
+// 
+// Kreiranje dinamičkog niza objekata tipa Movie(čuvanje više naslova na randomizirani način).
+// Poziv funkcije članice init prilikom alokacije i randomiziran unos svih objekata u niz Movie.
+// Poziv funkcije članice display kako bi došlo do prikaza svih objekata tipa Movie.
+// Ispisuje koliko je svaki film sakupio naslova.
+// Poziv deallocateMemory radi oslobađanja memorije.
+// Napomena: Za unošenje niza karaktera na randomiziran način ne možete koristiti već napisanu funkciju
+// generateRandomString na način koji je navedeno u zadatku.Ukoliko ne želite koristiti pomoćne funkcije,
+// možete ponuditi vlastito rješenje koje također randomizira unos naslova.
+// 
+// Dodatno :
+// 
+//     Randomizirani unos elemenata niza ratings(možete koristiti liniju koda rand() % 10 + 1)
+//     Unos veličine niza tipa podatka Movie(možete koristiti liniju koda rand() % (5 - 1) + 1)
+
 char* generateRandomString(int length, unsigned int seed) {
     const char charset[] = "abcdefghijklmnoprstuvwxyzABCDEFGHIJKLMNOPRSTUVWXYZ";
 
@@ -17,30 +67,32 @@ char* generateRandomString(int length, unsigned int seed) {
 }
 
 struct Movie {
-    char* title = nullptr;  
-    int numRatings = 0;     
-    int* ratings = nullptr; 
+    char* title = nullptr;
+    int numRatings = 0;
+    int* ratings = nullptr;
 
     void input(int index) {
-        title = generateRandomString(20, time(nullptr) + index); 
-        numRatings = 5 + rand() % 11; 
-        ratings = new int[numRatings]; 
+        title = generateRandomString(20, time(nullptr) + index);
+        numRatings = 5 + rand() % 11;
+        ratings = new int[numRatings];
         for (int i = 0; i < numRatings; i++) {
-            ratings[i] = rand() % 11; 
+            ratings[i] = rand() % 11;
         }
     }
 
-    
+
     float getAverageRating() {
-        if (numRatings == 0) return 0; 
-        int sum = 0;
-        for (int i = 0; i < numRatings; i++) {
-            sum += ratings[i];
+        if (numRatings == 0) {
+            return 0;
         }
-        return static_cast<float>(sum) / numRatings;
+        int suma = 0;
+        for (int i = 0; i < numRatings; i++) {
+            suma += ratings[i];
+        }
+        return float(suma) / numRatings;
     }
 
-    
+
     void display() {
         cout << "Naslov filma: " << title << endl;
         cout << "Broj ocjena: " << numRatings << endl;
@@ -52,7 +104,7 @@ struct Movie {
         cout << "Prosjecna ocjena: " << getAverageRating() << endl;
     }
 
-   
+
     void deallocateMemory() {
         delete[] title;
         delete[] ratings;
@@ -70,21 +122,21 @@ void main() {
     int numMovies = rand() % 3 + 1;
 
 
-    Movie* movies = new Movie[numMovies]; 
+    Movie* movies = new Movie[numMovies];
 
-    
+
     for (int i = 0; i < numMovies; i++) {
         movies[i].input(i);
     }
 
-    
+
     cout << "\nInformacije o filmovima:\n";
     for (int i = 0; i < numMovies; i++) {
         cout << "\nFilm " << i + 1 << ":\n";
         movies[i].display();
     }
 
-    
+
     for (int i = 0; i < numMovies; i++) {
         movies[i].deallocateMemory();
     }

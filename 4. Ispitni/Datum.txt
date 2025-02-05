@@ -1,6 +1,41 @@
 #include <iostream>
 using namespace std;
 
+// Neka je dat sljedeći prototip strukture datum:
+// struct Datum
+// {
+// int dan;
+// int mjesec;
+// int godina;
+// void unos();
+// void ispis();
+// bool isValid();
+// int toInt();
+// };
+// ProgramiranjeI_sylabus.doc
+// Fakultet informacijskih tehnologija
+// 7
+// Programiranje I
+// Priprema za integralni ispit
+// Uraditi implementaciju zadanih funkcija članica i po potrebi definirati i implementirati pomoćne globalne funkcije
+//  (tipa: isLeap, getDaysForMonth i sl.). Zatim, //obavezno implementirati sljedeće globalne funkcije:
+// U main funkciji dodati sljedeće stavke:
+// •
+// Unos veličine 𝑣𝑒𝑙 koja označava dimenzije dinamičkog niza objekata tipa 𝐷𝑎𝑡𝑢𝑚
+// •
+// Kreiranje dinamičkog niza datuma
+// •
+// Unos datuma (dana, mjeseca i godine) za svaki objekt u nizu (unos se ponavlja ako su datumi nevalidni)
+// •
+// Ispis datuma
+// •
+// Kreiranje objekta 𝑡𝑎𝑟𝑔𝑒𝑡𝐷𝑎𝑡𝑢𝑚 i unos istog (unos se ponavlja ako je datum nevalidan)
+// •
+// Pronalaženje najbližeg datuma iz unesenog niza pozivom funkcije 𝑔𝑒𝑡𝐶𝑙𝑜𝑠𝑒𝑠𝑡𝐷𝑎𝑡𝑒
+// •
+// Dealokacije dinamičkog niza
+
+
 struct Datum {
     int dan;
     int mjesec;
@@ -64,12 +99,12 @@ struct Datum {
         return totalDays;
     }
 
-    
+
 };
 
 // Funkcija koja vraća stariji datum
 Datum min(Datum d1, Datum d2) {
-    if (d1.toInt() < d2.toInt()){
+    if (d1.toInt() < d2.toInt()) {
         return d1;
     }
     return d2;
@@ -147,6 +182,7 @@ void main() {
     noviji.ispis();
 
     delete[] datumi;
+    datumi = nullptr;
 
     system("pause");
 }
