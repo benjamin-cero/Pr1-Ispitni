@@ -1,0 +1,80 @@
+#include<iostream>
+#include<ctime>
+using namespace std;
+
+//Kocka moze da stane na broj od 1 do 6 (koristi rand() funkciju)
+//Igrac na pocetku ima rezultat 0
+//Ako igrac pritisne 'n' igra se prekida i ukupni rezultat igraca se prikazuje
+//Ako igrac pritisne 'y' igra se nastavlja i igrac opet baca kocku
+//Sa svakim bacanjem kocke, rezultat bacanja se dodaje na rezultat od igraca
+//Igra se nastavlja dok igrac ne pritisne 'y' ukupni rezultat igraca iznad 30 igra se automatski prekida i igrac je izgubio
+//Ako igrac uspije da ima rezultat u rangu od 28 do 30 igrac je pobijedio
+//Ako igrac pritisne 'n' i njegov rezultat je manji od 28 igrac je izgubio
+//Ako igrac tri puta za redom na bacanju dobije broj 6 igrac pobijedi neovisno o njegovom rezultatu
+//Ako igrac tri puta za redom na bacanju dobije broj 1 igrac je izgubio neovisno o njegovom rezultatu
+
+
+void igra(int kocka,char odabir,int ukupno,int zaRedom) {
+	while (odabir == 'y' || odabir == 'Y') {
+		kocka = rand() % 6 + 1;
+		cout << "Kocka je bacena... Kocka je pala na: " << kocka << endl;
+		if (kocka == 6) {
+			zaRedom += kocka;
+		}
+		else
+			zaRedom = 0;
+		if (zaRedom == 18) {
+			cout << "Cestitam ovo je vasa 3. sestica za redom... Pobijedili ste! " << endl;
+			break;
+		}
+		else if (zaRedom == 3) {
+			cout << "Nazalost ovo je vasa 3. jedinica za redom... Izgubili ste " << endl;
+			break;
+		}
+		ukupno += kocka;
+		cout << "Vas novi rezultat je: " << ukupno << endl;
+		if (ukupno > 30) {
+			cout << "Vas rezultat je presao 30... izgubili ste!" << endl;
+			break;
+		}
+		else if (ukupno >= 28 && ukupno <= 30) {
+			cout << "Cestitam pobjedili ste... vas konacan rezultat je u rangu od 28 do 30 " << endl;
+			break;
+		}
+
+		cout << "Unesite  y -> (YES) ako zelite nastaviti ili n -> (NO) ako zelite prekinuti: ";
+		cin >> odabir;
+		while (odabir != 'y' && odabir != 'Y' && odabir != 'N' && odabir != 'n')
+		{
+			cout << "Ups, unjeli ste pogresan znak!" << endl;
+			cout << "Unesite  y -> (YES) ako zelite igrati ili n -> (NO) ako ne zelite: ";
+			cin >> odabir;
+		}
+		if (odabir == 'n' && ukupno < 28) {
+			cout << "Vas konacan rezultat je nazalost manji od 28... Izgubili ste! " << endl;
+			break;
+		}
+
+	};
+}
+
+void main() {
+	srand(time(nullptr));
+	int kocka = 0;
+	char odabir = ' ';
+	int ukupno = 0;
+	cout << "Unesite  y -> (YES) ako zelite igrati ili n -> (NO) ako ne zelite: ";
+	cin >> odabir;
+	while (odabir != 'y' && odabir != 'Y' && odabir != 'N' && odabir!='n')
+	{
+		cout << "Ups, unjeli ste pogresan znak!" << endl;
+		cout << "Unesite  y -> (YES) ako zelite igrati ili n -> (NO) ako ne zelite: ";
+		cin >> odabir;
+	}
+	int zaRedom = 0;
+	if (odabir == 'y' || odabir == 'Y') {
+		igra(kocka, odabir, ukupno, zaRedom);
+	}
+
+	system("pause");
+}
