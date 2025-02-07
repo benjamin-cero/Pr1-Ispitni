@@ -1,0 +1,176 @@
+#include <iostream>
+#include <cstring>
+using namespace std;
+
+// Neka je dat sljedeći prototip strukture Serija:
+// struct Serija {
+//     char* imeSerije = nullptr;
+//     char* zanrSerije = nullptr; // dozvoliti unos samo "Crime", "Romance", "Comedy"
+//     char drzavaSnimanja[40] = "";
+//     int brojEpizoda = 0;
+//     int brojSezona = 0;
+//     int** ocjene = nullptr; // matrica dimenzija (brojSezona × brojEpizoda)
+// 
+//     void unos();
+//     float* getAveragesBySeasons();
+//     void ispis();
+//     void dealokacije();
+// };
+//Uraditi implementaciju zadanih funkcija članica i po potrebi definisati i implementirati pomoćne globalne funkcije.
+//Zatim, u main funkciji dodati sljedeće stavke :
+//
+//Kreiranje dinamičkog niza objekta tipa Serija, veličine koju korisnik unese
+//Poziv funkcije članice unos(funkcije koja radi alokaciju i konzolni unos, paziti na unos žanra serije) za sve elemente niza
+//Poziv funkcije članice ispis za sve elemente niza
+//Kreiranje i dohvaćanje niza prosječnih ocjena svih serija za svaku sezonu(koristiti dinamičku memoriju)
+//Ispis dinamičkog niza prosječnih ocjena za sezone
+//Dealokacija niza prosječnih ocjena
+//Poziv funkcije za dealokaciju
+//Dealokacija dinamičkog niza Serija
+//ZABRANJENO JE KORISTITI UGLASTE ZAGRADE.OBAVEZNO KORISTITI ARITMETIKU POKAZIVAČA.
+
+
+struct Serija {
+    char* imeSerije = nullptr;
+    char* zanrSerije = nullptr;
+    char drzavaSnimanja[40] = "";
+    int brojEpizoda = 0;
+    int brojSezona = 0;
+    int** ocjene = nullptr;
+
+    void unos() {
+        char* temp = new char[100];  
+        cout << "Unesite ime serije: ";
+        cin.ignore();
+        cin.getline(temp, 100);
+        imeSerije = new char[strlen(temp) + 1];
+        strcpy_s(imeSerije, strlen(temp) + 1, temp);
+
+        while (true) {
+            cout << "Unesite zanr serije (Crime, Romance, Comedy): ";
+            cin >> temp;  // Cin uzima samo jednu riječ
+
+            if (strcmp(temp, "Crime") == 0 || strcmp(temp, "Romance") == 0 || strcmp(temp, "Comedy") == 0) {
+                zanrSerije = new char[strlen(temp) + 1];
+                strcpy_s(zanrSerije, strlen(temp) + 1, temp);
+                break;
+            }
+            else {
+                cout << "Neispravan unos. Pokusajte ponovo.\n";
+            }
+        }
+
+        delete[] temp;
+        temp = nullptr;
+
+        cout << "Unesite drzavu snimanja: ";
+        cin.ignore();
+        cin.getline(drzavaSnimanja, 40);
+
+        cout << "Unesite broj sezona: ";
+        cin >> brojSezona;
+
+        cout << "Unesite broj epizoda: ";
+        cin >> brojEpizoda;
+
+        ocjene = new int* [brojSezona];
+        for (int i = 0; i < brojSezona; i++) {
+            ocjene[i] = new int[brojEpizoda];
+        }
+
+        cout << "Unesite ocjene epizoda (1-10):\n";
+        for (int i = 0; i < brojSezona; i++) {
+            cout << "Sezona " << i + 1 << ":\n";
+            for (int j = 0; j < brojEpizoda; j++) {
+                do {
+                    cout << "Epizoda " << j + 1 << ": ";
+                    cin >> ocjene[i][j];
+                } while (ocjene[i][j] < 1 || ocjene[i][j] > 10);
+            }
+        }
+    }
+
+    void ispis() {
+        cout << "\nSerija: " << imeSerije << "\nZanr: " << zanrSerije
+            << "\nDrzava snimanja: " << drzavaSnimanja
+            << "\nBroj sezona: " << brojSezona
+            << "\nBroj epizoda: " << brojEpizoda << "\n";
+
+        // Ispis ocjena
+        cout << "Ocjene epizoda:\n";
+        for (int i = 0; i < brojSezona; i++) {
+            cout << "Sezona " << i + 1 << ": ";
+            for (int j = 0; j < brojEpizoda; j++) {
+                cout << ocjene[i][j] << " ";
+            }
+            cout << endl;
+        }
+    }
+
+    void dealokacija() {
+        delete[] imeSerije;
+        delete[] zanrSerije;
+        for (int i = 0; i < brojSezona; i++) {
+            delete[] ocjene[i];
+        }
+        delete[] ocjene;
+    }
+};
+
+float* Prosjek(Serija s) {
+    float* prosjek = new float[s.brojSezona] {}; 
+
+    for (int i = 0; i < s.brojSezona; i++) {
+        float suma = 0; 
+        for (int j = 0; j < s.brojEpizoda; j++) {
+            suma += s.ocjene[i][j];
+        }
+        prosjek[i] = suma / s.brojEpizoda; 
+    }
+    return prosjek;
+}
+
+
+void main() {
+    int brojSerija;
+    cout << "Unesite broj serija: ";
+    cin >> brojSerija;
+    while (brojSerija<=0)
+    {
+        cout << "Unesite broj serija: ";
+        cin >> brojSerija;
+    }
+    Serija* s=new Serija[brojSerija];
+    for (int i = 0; i < brojSerija; i++)
+    {
+        s[i].unos();
+    }
+    for (int i = 0; i < brojSerija; i++)
+    {
+        s[i].ispis();
+    }
+    float* prosjek;
+
+    cout << "Prosjek serija po sezonama: " << endl;
+    for (int i = 0; i < brojSerija; i++)
+    {
+        cout << "Serija " << i + 1 << endl;
+        prosjek = Prosjek(s[i]);
+        for (int  j= 0; j < s[i].brojSezona; j++)
+        {
+            cout << "Sezona " << j + 1  << ": " << prosjek[j] << endl;
+        }
+        delete[] prosjek;
+        prosjek = nullptr;
+        cout << endl;
+
+    }
+
+    for (int i = 0; i < brojSerija; i++) {
+        s[i].dealokacija();
+    }
+    delete[] s;
+    s = nullptr;
+
+    system("pause");
+}
