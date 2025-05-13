@@ -1,0 +1,71 @@
+#include <iostream>
+#include <ctime>
+using namespace std;
+
+/*
+    Zadatak 2:
+    Napišite program koji simulira igru pogađanja broja prema sljedećim pravilima:
+    - Računar nasumično generiše broj između 1 i 50 (koristiti rand()).
+    - Igrač započinje sa 0 bodova.
+    - Igrač unosi broj i pokušava pogoditi nasumično generisani broj.
+    - Ako je uneseni broj tačan, igrač pobjeđuje i prikazuje se poruka: "Pogodili ste broj!".
+    - Ako igrač promaši broj, dobija bodove:
+        3 boda ako je razlika <= 3
+        2 boda ako je razlika između 4 i 7
+        1 bod ako je razlika između 8 i 10
+        0 bodova ako je razlika > 10
+    - Nakon 3 pogrešna pokušaja, igra se završava i prikazuje se ukupan broj bodova.
+    - Ako igrač unese -1, igra se prekida i prikazuje se osvojeni broj bodova.
+*/
+
+void main() {
+    srand(time(0));
+    int broj = rand() % 50 + 1;
+    int pokusaji = 0;
+    int bodovi = 0;
+    int unos;
+
+    while (true) {
+        cout << "Pogodi broj (1 do 50), ili unesi -1 da zavrsis: ";
+        cin >> unos;
+
+        if (unos == -1) {
+            cout << "Igra prekinuta. Broj osvojenih bodova: " << bodovi << endl;
+            break;
+        }
+
+        if (unos == broj) {
+            cout << "Tacan broj!" << endl;
+            break;
+        }
+
+        pokusaji++;
+        int razlika = unos > broj ? unos - broj : broj - unos;
+
+        if (razlika <= 3) {
+            cout << "Razlika je manja ili jednaka 3! Dobili ste 3 boda!" << endl;
+            bodovi += 3;
+        }
+        else if (razlika <= 7) {
+            cout << "Razlika je izmedju 4 i 7! Dobili ste 2 boda!" << endl;
+            bodovi += 2;
+        }
+        else if (razlika <= 10) {
+            cout << "Razlika je izmedju 8 i 10! Dobili ste 1 bod!" << endl;
+            bodovi += 1;
+        }
+        else {
+            cout << "Razlika je veca od 10. 0 bodova." << endl;
+        }
+
+        cout << "Trenutni rezultat: " << bodovi << " bodova." << endl;
+
+        if (pokusaji == 3) {
+            cout << "Tri puta zaredom niste pogodili! Igra je zavrsena." << endl;
+            cout << "Broj osvojenih bodova: " << bodovi << endl;
+            break;
+        }
+    }
+
+    system("Pause");
+}
