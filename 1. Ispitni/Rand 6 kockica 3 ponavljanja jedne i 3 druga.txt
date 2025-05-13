@@ -1,0 +1,72 @@
+#include <iostream>
+#include <ctime> 
+using namespace std;
+
+
+// 1 1 4 4 5
+/*
+    Napisati program koji simulira bacanje 6 kockica ali sa sljedećim pravilima:
+    1. Kockice imaju vrijednosti od 1 do 6.
+    2. Ponavljati bacanje kockica sve dok se ne dobiju tačno tri ponavljanja jedne vrijednosti i tri ponavljanja druge vrijednosti
+       (npr. tri petice i tri trojke). Redoslijed ispisanih vrijednosti kockica nije bitan.
+    3. Ispisati svako bacanje kockica.
+    4. Na kraju ispisati ukupan broj bacanja kao i posljednje izvučene vrijednosti kockica.
+*/
+
+
+void main() {
+    srand(time(nullptr));
+    int bacanja[6];
+    int brojBacanja = 0;
+
+    while (true)
+    {
+        brojBacanja++;
+
+        for (int i = 0; i < 6; i++)
+        {
+            bacanja[i] = rand() % 6 + 1;
+        }
+
+        cout << "Bacanje " << brojBacanja << ": ";
+
+        for (int i = 0; i < 5; i++)
+        {
+            cout << bacanja[i] << " ";
+        }
+        cout << endl;
+
+        int prviPar = -1;
+        int drugiPar = -1;
+        // 1 4 1 4 5
+        for (int i = 0; i < 6; i++) {
+            int count = 0;
+
+            for (int j = 0; j < 6; j++) {
+                if (bacanja[i] == bacanja[j]) {
+                    count++;
+                }
+            }
+
+            if (count == 3 && prviPar == -1) {
+                prviPar = bacanja[i];
+            }
+            else if (count == 3 && bacanja[i] != prviPar) {
+                drugiPar = bacanja[i];
+            }
+        }
+        if (prviPar != -1 && drugiPar != -1) {
+            break;
+        }
+    }
+
+    cout << "Ukupan broj bacanja: " << brojBacanja << endl;
+    cout << "Posljednje izvucene vrijednosti: ";
+    for (int i = 0; i < 6; i++)
+    {
+        cout << bacanja[i] << " ";
+    }
+    cout << endl;
+
+    system("pause");
+}
