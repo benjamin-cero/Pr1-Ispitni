@@ -1,0 +1,54 @@
+#include <iostream>
+#include <ctime>
+using namespace std;
+
+/*Postjuci sve faze procesa programiranja potrebno je napraviti program koji simlira izvlacenje karti. Igra se treba automatski nastaviti sveee dok tri posljednje izvucene karte nisu prosti brojevi (npr. 3,5,11) karte su u rasponu od 1 do 14 (za randomiziranje mozere koristiti liniju koda rand()% 14 + 1). Na kraju pokazati ukupan broj rotacija kao i posljednje 3 izvucene karte tj, krajnju kombinaciju*/
+
+
+bool prost(int broj) {
+	if (broj < 3) {
+		return false;
+	}
+	for (int i = 2; i < broj; i++)
+	{
+		if (broj % i == 0) {
+			return false;
+		}
+	}
+	return true;
+}
+
+void main() {
+    srand(time(0));
+	int Zadnje[3];
+	int broj = 0;
+	int brojprost=0;
+	int brojac = 0;
+	do
+	{
+		brojac++;
+		broj = rand() % 14 + 1;
+		if (prost(broj) == true) {
+			Zadnje[brojprost]=broj;
+			brojprost++;
+		}
+		else
+		{
+			brojprost = 0;
+		}
+		if (brojprost == 3) {
+			break;
+		}
+	} while (true);
+
+	cout << "Ukupno pokusaja: " << brojac << endl;
+	cout << "Krajnja kombinacija: "<< endl;
+	for (int i = 0; i < 3; i++)
+	{
+		cout << Zadnje[i] << " ";
+	}
+	cout << endl;
+	
+
+    system("Pause");
+}
