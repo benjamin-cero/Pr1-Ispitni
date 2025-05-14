@@ -1,0 +1,94 @@
+#include <iostream>
+using namespace std;
+
+
+//Broj cifri
+int BrojCifri(int broj) {
+	int brojac = 0;
+	do
+	{
+		brojac++;
+		broj /= 10;
+	} while (broj!=0);
+	return brojac;
+}
+
+//Zadnja cifra
+int ZadnjaCifra(int broj) {
+	return broj % 10;
+}
+
+//Prva Cifra
+int PrvaCifra(int broj) {
+	int Brojcifri = BrojCifri(broj);
+	for (int i = 0; i < Brojcifri-1; i++)
+	{
+		broj /= 10;
+	}
+	return broj;
+}
+
+//Srednja cifra
+int SrednjaCifra(int broj) {
+	int Brojcifri = BrojCifri(broj);
+	for (int i = 0; i < Brojcifri/2; i++){
+		broj /= 10;
+	}
+	return broj % 10;
+}
+
+//Srednja cifra ukolika ima paran broj cifara
+float SrednjaParne(int broj) {
+	int Brojcifri = BrojCifri(broj);
+	float prva;
+	float druga;
+	for (int i = 0; i < Brojcifri / 2-1; i++) {
+		broj /= 10;
+	}
+	prva = broj % 10;
+	broj /= 10;
+	druga = broj % 10;
+
+	return (prva+druga)/2;
+}
+
+//Cifre Naopako
+int NaopakoCifre(int broj) {
+	int drugiBroj = 0;
+	do
+	{
+		drugiBroj *= 10;
+		drugiBroj += broj % 10;
+		broj /= 10;
+	} while (broj!=0);
+	return drugiBroj;
+}
+
+//Poredu Cifre
+int PoreduCifre(int broj) {
+	int drugiBroj = 0;
+	int pozicija = 1;
+	do
+	{
+		int cifra = broj % 10;
+		drugiBroj += cifra * pozicija;
+		pozicija *= 10;
+		broj /= 10;
+	} while (broj!=0);
+	return drugiBroj;
+}
+
+void main() {
+	int broj = 123456;
+
+	cout << "Broj Cifri: " <<  BrojCifri(broj) << endl;
+	cout << "Zadnja Cifra: " <<  ZadnjaCifra(broj) << endl;
+	cout << "Prva Cifra: " <<  PrvaCifra(broj) << endl;
+	cout << "Srednja Cifra: " <<  SrednjaCifra(broj) << endl;
+	cout << "Srednja Paran broj cifara: " <<  SrednjaParne(broj) << endl;
+	cout << "Broj Naopako: " <<  NaopakoCifre(broj) << endl;
+	cout << "Broj Poredu: " <<  PoreduCifre(broj) << endl;
+	
+
+    system("Pause");
+}
