@@ -2,7 +2,11 @@
 #include <ctime>
 using namespace std;
 
-/*Postjuci sve faze procesa programiranja potrebno je napraviti program koji simlira izvlacenje karti. Igra se treba automatski nastaviti sveee dok tri posljednje izvucene karte nisu prosti brojevi (npr. 3,5,11) karte su u rasponu od 1 do 14 (za randomiziranje mozere koristiti liniju koda rand()% 14 + 1). Na kraju pokazati ukupan broj rotacija kao i posljednje 3 izvucene karte tj, krajnju kombinaciju*/
+/*Postjuci sve faze procesa programiranja potrebno je napraviti program koji simlira izvlacenje karti.
+ Igra se treba automatski nastaviti sveee dok tri posljednje izvucene karte nisu prosti brojevi
+ (npr. 3,5,11) karte su u rasponu od 1 do 14 (za randomiziranje mozere koristiti liniju koda rand()% 14 + 1).
+ Na kraju pokazati ukupan broj rotacija kao i posljednje 3 izvucene karte tj,
+ krajnju kombinaciju*/
 
 
 bool prost(int broj) {
