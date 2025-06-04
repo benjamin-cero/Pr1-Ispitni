@@ -1,0 +1,80 @@
+#include <iostream>
+#include <ctime>
+using namespace std;
+
+bool SamoParne(int n) {
+    
+    int pomocna = 0;
+    while (n!=0)
+    {
+        pomocna = n % 10;
+        if (pomocna % 2 != 0) {
+            return false;
+        }
+        n /= 10;
+    }
+    return true;
+
+}
+bool SamoNeparne(int n) {
+
+    int pomocna = 0;
+    while (n != 0)
+    {
+        pomocna = n % 10;
+        if (pomocna % 2 == 0) {
+            return false;
+        }
+        n /= 10;
+    }
+    return true;
+
+}
+bool prvaZadnja(int n) {
+    int zadnja = n % 10;
+    while (n>=10)
+    {
+        n /= 10;
+    }
+    if (n > zadnja) {
+        return true;
+    }
+    return false;
+}
+void cifre() {
+    int suma = 0;
+    int brojac = 0;
+    int n=0;
+    do
+    {
+        n = rand() % 701 + 200;
+        if (SamoParne(n) == true) {
+            cout << "Generisani broj: " << n << " - ulazi u sumu" << endl;
+            suma += n;
+        }
+        else
+        {
+            cout << "Generisani broj: " << n << " - Ne ulazi u sumu" << endl;
+
+        }
+        if (prvaZadnja(n) == true) {
+            brojac++;
+        }
+        if (SamoNeparne(n) == true) {
+            cout << "Generisani broj: " << n << " - Prekid programa (broj sadrzi samo neparne cifre)" << endl;
+            break;
+        }
+
+    } while (true);
+
+    cout << "Ukupna suma: " << suma << endl;
+    cout << "Ukupan broj prvih vecih od zadnjih: " << brojac << endl;
+
+}
+
+void main() {
+    srand(time(NULL));
+    cifre();
+
+    system("pause");
+}

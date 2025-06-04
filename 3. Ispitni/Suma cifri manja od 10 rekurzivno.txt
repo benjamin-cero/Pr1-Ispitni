@@ -1,0 +1,27 @@
+#include <iostream>
+using namespace std;
+
+int zbirCifri(int n, int zbir = 0) {
+    if (n == 0) {
+        cout << "Suma znamenki: " << zbir << endl;
+
+        if (zbir < 10)
+            return zbir;
+        else
+            return zbirCifri(zbir); // nova rekurzija sa prethodnom sumom
+    }
+
+    zbir += n % 10;
+    return zbirCifri(n / 10, zbir);
+}
+
+void main() {
+    int n;
+    cout << "Unesite n koji je izmedju 100 i 100000: ";
+    cin >> n;
+
+    int rezultat = zbirCifri(n);
+    cout << "Finalna suma znamenki: " << rezultat << endl;
+
+    system("pause");
+}
