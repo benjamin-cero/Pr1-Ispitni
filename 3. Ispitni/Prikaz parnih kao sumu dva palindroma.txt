@@ -1,0 +1,61 @@
+#include <iostream>
+using namespace std;
+
+/*Napisati program koji ostvaruje sljedece funkcionalnosti: 
+-Omoguciti unos dvije integer vrijednosti a i b uz uvjete a>200, b>a+100.
+<U rangu a-b pronaci sve parne brojeve i ispisati ih u obliku zbira dva palindroma.
+(Palindrom je broj koji je jednak broju koji se dobije obrtanjem cifara tog broja. Npr. 14541 je palindrom jer mu je ista vrijednost i ako se napise u obrnutom poretku cifara, dok broj 123 nije palindrom jer u obrnutom poretku cifara se dobije 321 (123!=321).
+Ukoliko se broj ne moze izraziti kao zbir dva palindroma, potrebno je ispisati poruku Broj (ovdje navesti broj) se ne moze prikazati kao zbir dva palindroma.*/
+
+
+bool palindrom(int broj) {
+    int broj2 = broj;
+    int novi = 0;
+    while (broj2!=0){
+        novi *= 10;
+        novi += broj2 % 10;
+        broj2 /= 10;
+    }
+    if (novi == broj) {
+        return true;
+    }
+    return false;
+}
+
+void prikazPalindroma(int n) {
+    for (int i = 11; i <= n / 2; i++) {
+
+        int j = n - i;
+        if (palindrom(i) && palindrom(j)) {
+            cout << n << " = " << i << " + " << j << endl;
+            break;
+        }
+    }
+        cout << "Broj(" << n << ") se ne moze izraziti kao zbir dva palindroma" << endl;
+}
+
+
+
+void main() {
+    int a,b;
+    cin >> a>>b;
+    
+    while (a<200)
+    {
+        cout << "a mora biti vece od 200: ";
+        cin >> a;
+    }
+    while (b < (a+100))
+    {
+        cout << "b mora biti vece od a+100: ";
+        cin >> b;
+    }
+
+    for (int i = a; i <= b; i += 2)
+    {
+        prikazPalindroma(i);
+    }
+
+
+    system("pause");
+}
