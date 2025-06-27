@@ -1,144 +1,225 @@
 #include <iostream>
+#include <iomanip>
+#include <ctime>
 using namespace std;
 
-/*Data je struktura Book, koja ima sljedeca ozbiljezja:
-char *imeKnjige;
-char *imeAutora;
-int brojOcjena; // velicina niza ocjena
-int *ocjena; // niz ocjena
-
-Napraviti funkciju u stukturi za unos svih podataka o knjizi, za ispis istih,
-za dealokaciju svih dinamickih varijabli, i za racunanje prosjeka ocjena u toj knjizi.
-Program treba da ponudi korisniku da unese velicinu niza. Napraviti dinamicki niz unesene velicine,
-koji ce sadrzavat objekte strukture Book. Ponuditi korisniku da upise podatke o knjigama u nizu,
-pa onda i ispisati te podatke u konzolu. Za svaku knjigu treba ispisati broj rijeci u imenu knjige
-(preporucljivo je napraviti posebnu globalnu funkciju za to). Nakon toga program treba ispisati koji
-je index knjige sa najvecim prosjekom ocjena.*/
-
-
-struct Book {
-
+/*struct Knjiga
+{
     char* imeKnjige = nullptr;
-    char* imeAutora = nullptr;
-    int brojOcjena = 0;
-    int* ocjena = nullptr;
+    char* kategorijaKnjige = nullptr;
+    char izdavac[40] = "";
+    int brojDijelova = 0;
+    int brojCitatelja = 0;
+    int** ocjene = nullptr;
+    
+    void unos();
+    void ispis();
+    void dealokacije();
+
+    };
+    float* getAverageByCategory(Knjiga*niz,int velNiza);
+    
+    Uraditi implementaciju zadanih funkcija clanica kao i globalne funkcije "GetAverageByCategory"
+    i po potrebi definirati i implementirati pomocne globalne funkcije. Zatim, u main funkciji ce sljedece stavke:
+    -Kreiranje dinamickog niza objekta tipa Knjiga, velicine koju korisnik unese
+    -Poziv funkcije clanice unos (funkcije koja radi alokaciju i konzolni unos, paziti na
+    kategorije knjige) za sve elemente niza, Unos ocjena mora biti random u vrijednostima 1 do 5
+    -Poziv funkciije clanice ispis za sve elemente niza
+    -Kreiranje i dohvacanje niza prosjecnih ocjena za sve 3 kategorije
+    -Ispis dinamickog niza prosjecnih ocjena za sve 3 kategorije
+    -Dealokacija niza prosjecnih ocjena kategorija 
+    -Poziv funkcije za dealokaciju
+    -Dealokacija dinamickog niza Knjiga
+    ZABRANJENO JE KORISTITI UGLASTE ZAGRADE. OBAVEZNO KORISTITI
+    ARITMETIKU POKAZIVACA.
+    
+    
+    */
+
+
+
+
+
+struct Knjiga
+{
+    char* imeKnjige = nullptr;
+    char* kategorijaKnjige = nullptr;
+    char izdavac[40] = "";
+    int brojDijelova = 0;
+    int brojCitatelja = 0;
+    int** ocjene = nullptr;
 
     void unos() {
-        imeAutora = new char[200];
-        cout << "Unesite ime autora: ";
+        imeKnjige = new char[100];
+        cout << "Unesite ime knjige: ";
         cin.ignore();
-        cin.get(imeAutora, 200);
-        imeKnjige = new char[200];
-        cout << "Unesite naslov knjige: ";
+        cin.get(imeKnjige,100);
+
+        kategorijaKnjige = new char[20];
+        do
+        {
+            cout << "Unesite kategoriju (Fiction, Non-Fiction, Mystery): ";
+            cin.ignore();
+            cin.get(kategorijaKnjige, 20);
+
+        } while (strcmp(kategorijaKnjige,"Fiction")!=0 &&
+            strcmp(kategorijaKnjige, "Non-Fiction") != 0&&
+            strcmp(kategorijaKnjige, "Mystery") != 0);
+
+        cout << "Unesite izdavaca: ";
         cin.ignore();
-        cin.get(imeKnjige, 200);
-        cout << "Unesite broj ocjena: ";
-        cin >> brojOcjena;
-        ocjena = new int[brojOcjena];
-        for (int i = 0; i < brojOcjena; i++) {
-            cin >> ocjena[i];
+        cin.get(izdavac, 40);
+
+        cout << "Unesite broj djelova knjige: ";
+        cin >> brojDijelova;
+        cout << "Unesite broj citatelja knjige: ";
+        cin >> brojCitatelja;
+
+        ocjene = new int* [brojDijelova];
+        for (int i = 0; i < brojDijelova; i++)
+        {
+            *(ocjene+i) = new int[brojCitatelja];
         }
-        cout << endl;
+
+        cout << "Unesite ocjene: ";
+        for (int i = 0; i < brojDijelova; i++)
+        {
+            for (int j = 0; j < brojCitatelja; j++)
+            {
+                *(*(ocjene + i) + j) = rand()%5+1;
+            }
+        }
     }
     void ispis() {
-        cout << "=============================================" << endl;
-        cout << "Ime autora: " << imeAutora << endl;
-        cout << "Naslov knjige: " << imeKnjige << endl;
+        cout << "=================================" << endl;
+        cout << "Ime knjige: " << imeKnjige << endl;
+        cout << "Kategorija: " << kategorijaKnjige << endl;
+        cout << "Izdavac: " << izdavac << endl;
+        cout << "Broj dijelova: " << brojDijelova << endl;
+        cout << "Broj citatelja: " << brojCitatelja << endl;
+
         cout << "Ocjene: " << endl;
-        for (int i = 0; i < brojOcjena; i++)
+        for (int i = 0; i < brojDijelova; i++)
         {
-            cout << ocjena[i] << " ";
-        }
-        cout << endl;
-    }
-
-    float Prosjek() {
-        float prosjecna = 0.0;
-
-        for (int i = 0; i < brojOcjena; i++)
-        {
-            prosjecna += ocjena[i];
+            cout << "Dio: " << i + 1 << ": ";
+            for (int j = 0; j < brojCitatelja; j++)
+            {
+                cout << *(*(ocjene + i) + j) << " ";
+            }
+            cout << endl;
         }
 
-        return prosjecna / brojOcjena;
+    }
+
+    float prosjek() {
+        int suma = 0;
+        int brojac = 0;
+        for (int i = 0; i < brojDijelova; i++)
+        {
+            for (int j = 0; j < brojCitatelja; j++)
+            {
+                suma += *(*(ocjene + i) + j);
+                brojac++;
+            }
+        }
+        if (brojac > 0) {
+            return float(suma) / brojac;
+        }
+        else
+        {
+            return 0;
+        }
+        // OPCIONALNO return brojac > 0 ? float(suma / brojac) : 0;
     }
 
 
+    void dealokacija() {
+        for (int i = 0; i < brojDijelova; i++)
+        {
+            delete[] * (ocjene + i);
+            *(ocjene + i)=nullptr;
+        }
+        delete[] ocjene;
+        ocjene = nullptr;
 
-    void dealociraj() {
-        delete[] imeAutora;
-        imeAutora = nullptr;
         delete[] imeKnjige;
         imeKnjige = nullptr;
-        delete[] ocjena;
-        ocjena = nullptr;
+        
+        delete[] kategorijaKnjige;
+        kategorijaKnjige = nullptr;
+
     }
 
 };
 
 
+float* getAverageByCategory(Knjiga* book, int velicina) {
+    float* prosjeci = new float[3] {};
+    int* brojac = new int[3] {};
 
-int brojRijeciuNaslovu(Book Knjige) {
-    int brojRijeci = 0;
-    bool space = false;
 
-    for (int i = 0; i < strlen(Knjige.imeKnjige); i++)
-    {
-        if (isspace(Knjige.imeKnjige[i])) {
-            space = false;
+    for (int i = 0; i < velicina; i++){
+        float p = (book + i)->prosjek();
+        if (strcmp((book + i)->kategorijaKnjige, "Fiction") == 0) {
+            prosjeci[0] += p;
+            brojac[0]++;
         }
-        else
-        {
-            if (space == false) {
-                brojRijeci++;
-                space = true;
-            }
+        else if (strcmp((book + i)->kategorijaKnjige, "Non-Fiction") == 0) {
+            prosjeci[1] += p;
+            brojac[1]++;
         }
-
+        else if (strcmp((book + i)->kategorijaKnjige, "Mystery") == 0) {
+            prosjeci[2] += p;
+            brojac[2]++;
+        }
     }
 
-    return brojRijeci;
+    for (int i = 0; i < 3; i++)
+    {
+        if (brojac[i] > 0) {
+            *(prosjeci + i) = *(prosjeci + i) / *(brojac + i);
+        }
+    }
+    delete[]brojac;
+    brojac = nullptr;
+    return prosjeci;
+
 }
 
-
 void main() {
-    int index = 0;
-    float prosjekOcjena = 0.0;
-    int duzina = 0;
-    cout << "Unesite velicinu niza: ";
-    cin >> duzina;
+    srand(time(NULL));
+    int velicina = 0;
+    cout << "Unesite broj Knjiga: ";
+    cin >> velicina;
 
-    Book* knjige = new Book[duzina];
+    Knjiga* book = new Knjiga[velicina];
 
-    for (int i = 0; i < duzina; i++)
+    for (int i = 0; i < velicina; i++)
     {
-        knjige[i].unos();
+        (book + i)->unos();
     }
-    for (int i = 0; i < duzina; i++)
+    for (int i = 0; i < velicina; i++)
     {
-        knjige[i].ispis();
+        (book + i)->ispis();
     }
+    cout << endl;
 
-    prosjekOcjena = knjige->Prosjek();
-    for (int i = 0; i < duzina; i++)
-    {
-        if (knjige[i].Prosjek() > prosjekOcjena) {
-            prosjekOcjena = knjige[i].Prosjek();
-            index = i;
-        }
-    }
+    float* prosjeci = getAverageByCategory(book,velicina);
+    cout << "\nProsjece ocjene po kategorijama:\n";
+    cout << "Fiction: " << *(prosjeci + 0) << endl;
+    cout << "Non-Fiction: " << *(prosjeci + 1) << endl;
+    cout << fixed << setprecision(2) << endl;
+    cout << "Mistery: " << *(prosjeci + 2) << endl;
+    delete[] prosjeci;
+    prosjeci = nullptr;
 
-    cout << "Naslov knjige sa najvecom prosjecnom ocjenom je: " << knjige[index].imeKnjige << endl;
-    cout << "Broj rijeci u knjigama: " << endl;
-    for (int i = 0; i < duzina; i++)
+    for (int i = 0; i < velicina; i++)
     {
-        cout << i << ". Knjiga: " << brojRijeciuNaslovu(knjige[i]) << endl;
+        (book+i)->dealokacija();
     }
 
-    for (int i = 0; i < duzina; i++)
-    {
-        knjige[i].dealociraj();
-    }
+    delete[] book;
+    book = nullptr;
 
     system("pause");
 }

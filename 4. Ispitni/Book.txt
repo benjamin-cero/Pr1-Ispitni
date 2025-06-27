@@ -1,0 +1,144 @@
+#include <iostream>
+using namespace std;
+
+/*Data je struktura Book, koja ima sljedeca ozbiljezja:
+char *imeKnjige;
+char *imeAutora;
+int brojOcjena; // velicina niza ocjena
+int *ocjena; // niz ocjena
+
+Napraviti funkciju u stukturi za unos svih podataka o knjizi, za ispis istih,
+za dealokaciju svih dinamickih varijabli, i za racunanje prosjeka ocjena u toj knjizi.
+Program treba da ponudi korisniku da unese velicinu niza. Napraviti dinamicki niz unesene velicine,
+koji ce sadrzavat objekte strukture Book. Ponuditi korisniku da upise podatke o knjigama u nizu,
+pa onda i ispisati te podatke u konzolu. Za svaku knjigu treba ispisati broj rijeci u imenu knjige
+(preporucljivo je napraviti posebnu globalnu funkciju za to). Nakon toga program treba ispisati koji
+je index knjige sa najvecim prosjekom ocjena.*/
+
+
+struct Book {
+
+    char* imeKnjige = nullptr;
+    char* imeAutora = nullptr;
+    int brojOcjena = 0;
+    int* ocjena = nullptr;
+
+    void unos() {
+        imeAutora = new char[200];
+        cout << "Unesite ime autora: ";
+        cin.ignore();
+        cin.get(imeAutora, 200);
+        imeKnjige = new char[200];
+        cout << "Unesite naslov knjige: ";
+        cin.ignore();
+        cin.get(imeKnjige, 200);
+        cout << "Unesite broj ocjena: ";
+        cin >> brojOcjena;
+        ocjena = new int[brojOcjena];
+        for (int i = 0; i < brojOcjena; i++) {
+            cin >> ocjena[i];
+        }
+        cout << endl;
+    }
+    void ispis() {
+        cout << "=============================================" << endl;
+        cout << "Ime autora: " << imeAutora << endl;
+        cout << "Naslov knjige: " << imeKnjige << endl;
+        cout << "Ocjene: " << endl;
+        for (int i = 0; i < brojOcjena; i++)
+        {
+            cout << ocjena[i] << " ";
+        }
+        cout << endl;
+    }
+
+    float Prosjek() {
+        float prosjecna = 0.0;
+
+        for (int i = 0; i < brojOcjena; i++)
+        {
+            prosjecna += ocjena[i];
+        }
+
+        return prosjecna / brojOcjena;
+    }
+
+
+
+    void dealociraj() {
+        delete[] imeAutora;
+        imeAutora = nullptr;
+        delete[] imeKnjige;
+        imeKnjige = nullptr;
+        delete[] ocjena;
+        ocjena = nullptr;
+    }
+
+};
+
+
+
+int brojRijeciuNaslovu(Book Knjige) {
+    int brojRijeci = 0;
+    bool space = false;
+
+    for (int i = 0; i < strlen(Knjige.imeKnjige); i++)
+    {
+        if (isspace(Knjige.imeKnjige[i])) {
+            space = false;
+        }
+        else
+        {
+            if (space == false) {
+                brojRijeci++;
+                space = true;
+            }
+        }
+
+    }
+
+    return brojRijeci;
+}
+
+
+void main() {
+    int index = 0;
+    float prosjekOcjena = 0.0;
+    int duzina = 0;
+    cout << "Unesite velicinu niza: ";
+    cin >> duzina;
+
+    Book* knjige = new Book[duzina];
+
+    for (int i = 0; i < duzina; i++)
+    {
+        knjige[i].unos();
+    }
+    for (int i = 0; i < duzina; i++)
+    {
+        knjige[i].ispis();
+    }
+
+    prosjekOcjena = knjige->Prosjek();
+    for (int i = 0; i < duzina; i++)
+    {
+        if (knjige[i].Prosjek() > prosjekOcjena) {
+            prosjekOcjena = knjige[i].Prosjek();
+            index = i;
+        }
+    }
+
+    cout << "Naslov knjige sa najvecom prosjecnom ocjenom je: " << knjige[index].imeKnjige << endl;
+    cout << "Broj rijeci u knjigama: " << endl;
+    for (int i = 0; i < duzina; i++)
+    {
+        cout << i << ". Knjiga: " << brojRijeciuNaslovu(knjige[i]) << endl;
+    }
+
+    for (int i = 0; i < duzina; i++)
+    {
+        knjige[i].dealociraj();
+    }
+
+    system("pause");
+}

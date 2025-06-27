@@ -1,0 +1,79 @@
+#include <iostream>
+#include <ctime>
+using namespace std;
+
+
+/*Napisite program gdje se uzastopno generiraju brojevi (koristeci rand() funkciju) koji nemaju
+unutar sebe cifre 5 i 3. i ako se dobije broj koji u sebi sadrzi cifru 5, program prestaje sa izvrsavanjem. Ako se dobije broj koji sadrzi unutar sebe cifru 3, taj broj se ne treba uzeti u razmatranje, ali se izvrsavanje programa nastavlja. Nakon sto se dobije broj koji sadrzi cifru 5, program treba izracunati
+prosjek za sve prve cifre prethodno generiranih brojeva(Broj sa kojim se zavrsava program ne uzeti u razmatranje pri racunanju prosjeka).*/
+
+
+bool cifra5(int n) {
+    int cifra = 0;
+    do
+    {
+        cifra = n % 10;
+        if (cifra == 5) {
+            return true;
+        }
+        n /= 10;
+    } while (n > 0);
+    return false;
+}
+
+bool cifra3(int n) {
+    int cifra = 0;
+    do
+    {
+        cifra = n % 10;
+        if (cifra == 3) {
+            return true;
+        }
+        n /= 10;
+    } while (n > 0);
+    return false;
+}
+
+int PrvaCifra(int n) {
+    do
+    {
+        n /= 10;
+    } while (n >= 10);
+    return n;
+}
+
+
+void main() {
+    srand(time(NULL));
+    int n = 0;
+    float suma = 0.0;
+    int brojac = 0;
+
+    do
+    {
+        n = rand();
+        cout << "Dobiveni broj: " << endl << n << endl;
+        if (cifra5(n) == true) {
+            cout << "Uneseni bro se ne racuna" << endl;
+            break;
+        }
+        if (cifra3(n) == false) {
+            brojac++;
+            cout << "Prva cifra unesenog broja je: " << PrvaCifra(n) << endl;
+            suma += PrvaCifra(n);
+        }
+        else
+        {
+            cout << "Uneseni broj se ne racuna " << endl;
+        }
+
+    } while (true);
+
+    if (brojac != 0) {
+        cout << "Ukupan prosjek prvih cifri je " << suma / brojac << endl;
+    }
+
+
+
+    system("pause");
+}
