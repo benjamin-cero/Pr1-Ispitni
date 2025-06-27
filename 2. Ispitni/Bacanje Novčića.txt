@@ -1,0 +1,96 @@
+#include<iostream>
+using namespace std;
+
+//Napisi program koji treba da simulira igru bacanja novcica. Pravila //igre su :
+//-Novcic moze pasti na glavu g ili pismo p (koristiti rand() za //generisanje rezultata)
+//-Igrac pocinje sa 3 boda
+//-Ako igrac pritisno n igra se prekida i prikazuje se njegov ukupni //rezultat
+//-Ako igrac pritisne y igra se nastavvlja i ponovo baca novcic
+//
+//Pravila bodovanja
+//-Glava (G) dodje 1 bod na ukupan rezultat
+//-Pismo (P) oduzima 1 bod ali rezultat ne moze biti manji od 0
+//
+//Igra se automatski prekida ako
+//-Rezultat dodje do 10 ili vise -- Pobjeda!
+//-Rezultat padnje na 0 nakon pisma --Poraz!
+//
+//Posebni uslovi
+//-Ako igrac dobije 3 glave zaredom, automatski pobjeduje
+//-Ako igrac dobije 3 pisma zaredom automatski gubi
+//-Ako igrac pritisne n prije nego dosegne 10 bodova automatski gubi
+
+
+void igra(int novcic, char odabir, int ukupno, int zaRedom) {
+	int GlaveZaRedom = 0;
+	int PismaZaRedom = 0;
+	while (odabir == 'y' || odabir == 'Y') {
+		novcic = rand() % 2 + 0;
+		cout << "novcic je bacen... novcic je pao na: " << novcic << endl;
+		if (novcic == 1) {
+			ukupno++;
+			GlaveZaRedom++;
+		}
+		else
+			GlaveZaRedom = 0;
+		if (novcic == 0) {
+			ukupno--;
+			PismaZaRedom++;
+		}
+		else
+			PismaZaRedom = 0;
+		if (GlaveZaRedom == 3) {
+			cout << "Cestitam ovo je vasa 3. glava za redom... Pobijedili ste! " << endl;
+			break;
+		}
+		else if (PismaZaRedom == 3) {
+			cout << "Nazalost ovo je vase 3. pismo za redom... Izgubili ste " << endl;
+			break;
+		}
+
+		cout << "Vas novi rezultat je: " << ukupno << endl;
+		if (ukupno == 10) {
+			cout << "Vas rezultat je 10... Pobijedili ste!" << endl;
+			break;
+		}
+		else if (ukupno == 0 || ukupno == -1) {
+			cout << "Nazalost vas rezultat je otisao na 0... Izgubili ste" << endl;
+			break;
+		}
+
+		cout << "Unesite  y -> (YES) ako zelite nastaviti ili n -> (NO) ako zelite prekinuti: ";
+		cin >> odabir;
+		while (odabir != 'y' && odabir != 'Y' && odabir != 'N' && odabir != 'n')
+		{
+			cout << "Ups, unjeli ste pogresan znak!" << endl;
+			cout << "Unesite  y -> (YES) ako zelite igrati ili n -> (NO) ako ne zelite: ";
+			cin >> odabir;
+		}
+		if (odabir == 'n') {
+			cout << "Odabrali ste napustiti igru... Nazalost Izgubili ste! " << endl;
+			break;
+		}
+
+	};
+}
+
+void main() {
+	srand(time(nullptr));
+	int novcic = 0;
+	char odabir = ' ';
+	int ukupno = 3;
+	cout << "Unesite  y -> (YES) ako zelite igrati ili n -> (NO) ako ne zelite: ";
+	cin >> odabir;
+	while (odabir != 'y' && odabir != 'Y' && odabir != 'N' && odabir != 'n')
+	{
+		cout << "Ups, unjeli ste pogresan znak!" << endl;
+		cout << "Unesite  y -> (YES) ako zelite igrati ili n -> (NO) ako ne zelite: ";
+		cin >> odabir;
+	}
+	int zaRedom = 0;
+	if (odabir == 'y' || odabir == 'Y') {
+		igra(novcic, odabir, ukupno, zaRedom);
+	}
+
+	system("pause");
+}
