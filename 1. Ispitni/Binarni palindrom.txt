@@ -1,0 +1,67 @@
+#include<iostream>
+using namespace std;
+
+/*zadatak1. Napisite program u koje mkorisnik unosi broj n ( pri cemu vazi ogranicenje n>=2). Zatim je potrebno ispisati sve brojeve u intervalu [2,n] cija je binarna reprezentacija palindrom. Palindrom je broj koji se cita jednako s lijeve i s desne strane. Primjeri binarnih palindroma ukljucuju brojeve 101,111,1001,11011 i sl. takodjer je potrebno ispisati sumu cifra za svaku binarnu reprezentaciju koja je palindrom
+znaci kad korisnik unese primjer br 100 ispi streba biti
+
+3 -> 11. suma cifara je 2
+5 -> 101. Suma cifara je 2
+7 -> 111. Suma cifara je 3
+9 -> 1001. Suma cifara je 2
+i sve tako do 100*/
+
+int binarni(int broj){
+	int bin = 0;
+	int pomak = 1;
+	do{
+		int cifra = broj % 2;
+		bin += cifra * pomak;
+		pomak *= 10;
+		broj /= 2;
+	} while (broj > 0);
+	return bin;
+}
+bool palindrom(int bin) {
+	int temp = bin;
+	int novi = 0;
+	do
+	{
+		novi *= 10;
+		novi += temp % 10;
+		temp /= 10;
+
+	} while (temp!=0);
+	return novi == bin;
+}
+
+
+int sumaCifara(int bin) {
+	int suma = 0;
+	do
+	{
+		suma += bin % 10;
+		bin /= 10;
+	} while (bin!=0);
+	return suma;
+}
+
+void main() {
+	int n;
+	do
+	{
+		cout << "Unesite broj n (n>=2): ";
+		cin >> n;
+	} while (n<2);
+
+	cout << "Binarni palindromi od 2 do " << n << ": " << endl;
+
+	for (int i = 3; i < n; i++){
+		int bin = binarni(i);
+		if (palindrom(bin) == true) {
+			cout << i << "-> " << bin << ". Suma cifara je " << sumaCifara(bin) << endl;
+		}
+	}
+	
+
+	system("pause");
+}
