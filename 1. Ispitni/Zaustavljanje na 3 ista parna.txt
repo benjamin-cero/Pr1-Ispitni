@@ -1,0 +1,120 @@
+#include <iostream>
+#include <ctime>
+using namespace std;
+
+
+/*Integralni Ispit -31.01.2026-GRUPA A
+Napomena: Obavezno pročitati dodatne instrukcije i informacije na kraju ovog
+dokumenta
+Ovo je integralni ispit, ako radite parcijalno otvorite drugi dokument!
+Zadatak 1:
+Napišite program gdje se uzastopno generiraju brojevi (koristeći rand() funkciju) koji su u rasponu od 10 do 9999 (uključujući granične vrijednosti).
+Ako se dobije trocifreni broj koji u sebi sadrži tri ista parna broja (npr. 666") program se zaustavlja.
+Ako se dobije broj koji sadrži unutar sebe više neparnih nego parnih brojeva, taj broj se ne treba uzeti u razmatranje,
+ali se izvršavanje programa nastavlja. Nakon što se dobije trocifreni broj koji unutar sebe sadrži tri ista parna broja (npr...444"),
+program treba izračunati prosjek za sve prve cifre prethodno generiranih brojeva (broj sa kojim se završava program ne uzeti u razmatranje pri računanju prosjeka).
+Potom ispisati prosjek, broj generisanih brojeva kao i zaustavni broj.
+Output aplikacije:
+Generisan broj: 2714
+Generisan broj: 1021
+Generisan broj: 5732 se preskace.
+Generisan broj: 1896
+Generisan broj: 1267
+Generisan broj: 2489
+Generisan broj: 9769 se preskace.
+Generisan broj: 3377 se preskace.
+Generisan broj: 8383
+Generisan broj: 5247
+Generisan broj: 5740
+Generisan broj: 2381
+Generisan broj: 1274
+Generisan broj: 8301
+Generisan broj: 522
+Generisan broj: 7791 se preskace.
+Generisan broj: 5021
+Generisan broj: 1367 se preskace.
+Generisan broj: 3106
+Prosjek prvih cifara: 4.7984
+Ukupan broj generisanih brojeva: 1994 Posljednji generisani broj: 666*/
+
+
+bool BrojParnihNeparnih(int broj)
+{
+    int parni = 0;
+    int neparni = 0;
+    while (broj > 0)
+    {
+        int cifra = broj % 10;
+
+        if (cifra % 2 == 0)
+            parni++;
+        else
+            neparni++;
+
+        broj /= 10;
+    }
+
+    if (parni > neparni) {
+        return true;
+    }
+    else {
+        return false;
+    }
+
+}
+
+int PrvaCifra(int broj)
+{
+    while (broj >= 10)
+        broj /= 10;
+
+    return broj;
+}
+
+bool TriIsteParne(int broj)
+{
+    if (broj < 100 || broj > 999)
+        return false;
+
+    int c1 = broj / 100;
+    int c2 = (broj / 10) % 10;
+    int c3 = broj % 10;
+
+    return (c1 == c2 && c2 == c3 && c1 % 2 == 0);
+}
+
+void main()
+{
+    srand(time(0));
+
+    int broj;
+    int sumaPrvih = 0;
+    int brojValidnih = 0;
+    int ukupnoGenerisanih = 0;
+
+    while (true)
+    {
+        broj = rand() % 9990 + 10;
+        ukupnoGenerisanih++;
+
+        if (TriIsteParne(broj))
+            break; // break izlazi iz ove petlje znaci sa 101  linije spavna se na 109.tu liniju i nastavi dalje
+
+
+        if (BrojParnihNeparnih(broj) == false)
+            continue; // continue krece od pocetka petlje bez da nastavlja do kraja znaci sa 105te linije ce krenuti opet od 95. linije
+
+        sumaPrvih += PrvaCifra(broj);
+        brojValidnih++;
+    }
+
+    double prosjek = 0;
+    if (brojValidnih > 0)
+        prosjek = (double)sumaPrvih / brojValidnih;
+
+    cout << "Prosjek prvih cifri: " << prosjek << endl;
+    cout << "Ukupan broj generisanih brojeva: " << ukupnoGenerisanih << endl;
+    cout << "Posljednji generisani broj: " << broj << endl;
+
+    system("pause");
+}
