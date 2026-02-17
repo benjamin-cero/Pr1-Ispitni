@@ -1,0 +1,58 @@
+#include <iostream>
+#include <ctime>
+using namespace std;
+
+
+/*Napišite program koji generiše random broj n (obavezno koristiti funkciju rand()).
+Potom napišite rekurzivnu funkciju koja pronalazi sve brojeve od 10 do n (bez graničnih vrijednosti) čiji je zbir cifara paran.
+Također ispišite te brojeve. Za izradu programa možete koristiti više rekurzivnih funkcija.
+OBAVEZNO KORISTITI REKURZIVNE FUNKCIJE
+Output aplikacije:
+Nasumicno generisan broj n: 25
+Brojevi od 1 do 25 ciji je zbir cifara paran: 11 13 15 17 19 20 22 24*/
+
+
+bool sumrek(int n, int suma = 0) {
+    if (n == 0) {
+        if (suma % 2 == 0) {
+            return true;
+        }
+        else {
+            return false;
+
+        }
+    }
+
+    suma += n % 10;
+
+    return sumrek(n / 10, suma);
+}
+
+
+
+void vrcenje(int n, int i = 11) {
+    if (i == n) {
+        return;
+    }
+
+    if (sumrek(i) == true) {
+        cout << i << endl;
+    }
+
+    vrcenje(n, i + 1);
+}
+
+
+void main() {
+    srand(time(NULL));
+
+    int n;
+
+    n = rand();
+    cout << "n = " << n << endl << endl;
+
+    vrcenje(n);
+
+
+    system("pause");
+}
