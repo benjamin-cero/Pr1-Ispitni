@@ -1,0 +1,189 @@
+#include <iostream>
+#include <ctime>
+using namespace std;
+
+
+
+/*Napišite program koji generiše matricu dimenzija 3x3 (matrica ne mora da bude dinamička), koja treba da bude magični kvadrat pri čemu trebaju da važe pravila:
+Svaki element matrice mora biti cijeli broj u rasponu od 1 do 9 (uključujući granične vrijednosti) i elementi se u matricu moraju pohranjivati rekurzivno.
+.
+Svi brojevi moraju biti različiti.
+.
+Nakon generisanja, program treba provjeriti da li je matrica magični kvadrat.
+I
+•
+Na osnovu provjere, program ispisuje odgovarajuću poruku.
+•
+Program nastavlja da radi sve dok ne generiše ispravan magični kvadrat
+Magični kvadrat je kvadratna matrica u kojoj:
+Suma brojeva u svakom redu je ista.
+Suma brojeva u svakoj koloni je ista
+Suma brojeva na glavnoj dijagonali i sporednoj dijagonali je ista.
+NAPOMENA: PRONALAŽENJE MAGIČNOG KVADRATA MOŽE DA POTRAJE, NE MORATE ISPISATI SVE MATRICE KOJE NISU MAGIČNI KVADRAT,
+SAMO ISPIŠITE MATRICU KOJA JEST MAGIČNI KVADRAT. REKURZIVNU FUNKCIJU KORISTITE SAMO PRILIKOM POHRANJIVANJA BROJEVA U MATRICU*/
+
+//Primjer:
+
+//       = 15 -> dijagonala
+// 2 7 6 = 15
+// 9 5 1 = 15
+// 4 3 8 = 15
+//       = 15 -> dijagonala
+//
+
+const int n = 3;
+
+bool postoji(int m[][n], int x) {
+    for (int i = 0; i < n; i++)
+        for (int j = 0; j < n; j++)
+            if (m[i][j] == x) return true;
+    return false;
+}
+
+
+
+void unos(int matrica[n][n], int i = 0) {
+
+    if (i == 3) {
+        return;
+    }
+    int x;
+
+    for (int j = 0; j < n; j++) {
+        do {
+
+            x = rand() % 9 + 1;
+
+        } while (postoji(matrica, x) == true);
+        matrica[i][j] = x;
+
+    }
+
+    unos(matrica, i + 1);
+}
+
+bool magicniRed(int matrica[][n], int red) {
+    int suma = 0;
+
+    for (int j = 0; j < n; j++)
+    {
+        suma += matrica[red][j];
+    }
+    if (suma == 15) {
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+
+bool magicnaKolona(int matrica[][n], int kolona) {
+    int suma = 0;
+
+    for (int j = 0; j < n; j++)
+    {
+        suma += matrica[j][kolona];
+    }
+    if (suma == 15) {
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+
+bool magicnaDijagonale(int matrica[][n]) {
+    int suma = 0;
+
+    for (int i = 0; i < 3; i++)
+    {
+        for (int j = 0; j < 3; j++)
+        {
+            if (i == j) {
+                suma += matrica[i][j];
+            }
+        }
+    }
+    if (suma == 15) {
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+bool magicnaDijagonale2(int matrica[][n]) {
+    int suma = 0;
+    int a = 2;
+
+    for (int i = 0; i < 3; i++)
+    {
+        for (int j = 0; j < 3; j++)
+        {
+
+            if (j == a) {
+                suma += matrica[i][j];
+            }
+        }
+        a--;
+    }
+    if (suma == 15) {
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+
+void main() {
+    srand(time(NULL));
+    int matrica[n][n] = { 0 };
+
+
+
+
+    unos(matrica);
+
+    bool magicni;
+
+    do
+    {
+        for (int i = 0; i < n; i++)
+        {
+            for (int j = 0; j < n; j++)
+            {
+                matrica[i][j] = 0;
+            }
+        }
+        unos(matrica);
+        magicni = true;
+
+        for (int i = 0; i < 3; i++)
+        {
+            if (!magicniRed(matrica, i) || !magicnaKolona(matrica, i)) {
+                magicni = false;
+                break;
+
+
+            }
+        }
+        if (!magicnaDijagonale(matrica) || !magicnaDijagonale2(matrica)) {
+            magicni = false;
+        }
+
+    } while (magicni == false);
+
+
+
+    for (int i = 0; i < 3; i++)
+    {
+        for (int j = 0; j < 3; j++)
+        {
+            cout << matrica[i][j] << "   ";
+        }
+        cout << endl;
+    }
+
+
+
+    system("pause");
+}
