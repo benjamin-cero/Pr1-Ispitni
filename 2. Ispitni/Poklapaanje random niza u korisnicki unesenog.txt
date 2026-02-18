@@ -1,0 +1,125 @@
+#include <iostream>
+#include <ctime>
+using namespace std;
+
+
+/*Napišite program koji generiše niz od 5 nasumičnih brojeva (koristeći rand() funkciju). Program mora da prati pravila:
+•
+Svaki element niza mora biti cijeli broj u rasponu od 1 do 5 (uključujući granične vrijednosti).
+. Svi brojevi u nizu moraju biti različiti.
+Nakon generisanja, program treba od korisnika da traži unos (samo dozvoliti unos brojeva od 1 do 5, brojevi se ne smiju ponavljati npr.
+da imate 5, 5, 3, 2, 1) u korisnički niz gdje je cilj da pogodi isti redoslijed brojeva npr.
+Automatski generisani niz: 5  2  4  3  1
+
+Korisnikov niz:5  4  3  2  1
+
+Na osnovu provjere, ako korisnik nije unio brojeve tako da su nizovi jednaki (kao u primjeru gore), potrebno je da se korisniku ispiše adekvatna poruka.
+Za pokazni primjer gore, poruka bi bila: Niste unijeli ispravno niz! Uredu ste unijeli 1. i5. element!" Korisnik ima 3 pokušaja da ispravno unese niz.
+Ako korisnik ispravno unese niz kroz 5 pokušaja, treba da se korisniku ispiše poruka Čestitamo, pobijedili ste, nizovi su jednaki!".
+Ako korisnik ne uspije da ispravno unese niz kroz 5 pokušaja, treba da se ispiše poruka: Niste uspjeli da riješite zagonetku, izgubili ste!".
+⚫ U oba slučaja na kraju je potrebno ispisati traženi niz i konačni korisnikov niz.
+
+Primjer outputa aplikacije prilikom pobjede:
+Niste unijeli isprave niz! Okay je element: 2; Unesite niz od 5 brojeva (1-5), pokusaj 2
+2
+4
+5
+1
+3
+Okay je element: 1; Ckay je element: 2; Niste unijeli ispravno niz! Okay je element: 5; Unesite niz od 5 brojeva (1-5), pokusaj 3:*/
+
+
+
+
+bool Postoji(int niz[], int vel, int broj)
+{
+    for (int i = 0; i < vel; i++)
+        if (niz[i] == broj)
+            return true;
+
+    return false;
+}
+
+bool Jednaki(int a[], int b[], int vel)
+{
+    for (int i = 0; i < vel; i++)
+        if (a[i] != b[i])
+            return false;
+
+    return true;
+}
+
+void main(){
+    srand(time(0));
+
+    const int N = 5;
+    int trazeni[N];
+    int korisnik[N];
+
+
+    for (int i = 0; i < N; )
+    {
+        int broj = rand() % 5 + 1;
+
+        if (!Postoji(trazeni, i, broj))
+        {
+            trazeni[i] = broj;
+            i++;
+        }
+    }
+
+    bool pobjeda = false;
+
+    for (int pokusaj = 1; pokusaj <= 5; pokusaj++)
+    {
+        cout << "Pokusaj " << pokusaj << " - unesite 5 razlicitih brojeva (1-5):\n";
+
+        for (int i = 0; i < N; )
+        {
+            cin >> korisnik[i];
+
+            if (korisnik[i] < 1 || korisnik[i] > 5 || Postoji(korisnik, i, korisnik[i]))
+            {
+                cout << "Neispravan unos! Pokusajte ponovo: ";
+            }
+            else
+            {
+                i++;
+            }
+        }
+
+        if (Jednaki(trazeni, korisnik, N))
+        {
+            pobjeda = true;
+            cout << "\nCestitamo, pobijedili ste! Nizovi su jednaki." << endl;
+            break;
+        }
+        else
+        {
+            cout << "Niste unijeli ispravno niz! Tacni su elementi na pozicijama: ";
+
+            for (int i = 0; i < N; i++)
+                if (trazeni[i] == korisnik[i])
+                    cout << i + 1 << " ";
+
+            cout << endl;
+        }
+    }
+
+    if (!pobjeda)
+        cout << "Niste uspjeli da rijesite zagonetku. Izgubili ste." << endl;
+
+    cout << "Trazeni niz: ";
+    for (int i = 0; i < N; i++) {
+        cout << trazeni[i] << " ";
+    }
+
+    cout << "\nKorisnikov zadnji niz: ";
+    for (int i = 0; i < N; i++) {
+        cout << korisnik[i] << " ";
+    }
+
+    cout << endl;
+
+    system("pause");
+}
