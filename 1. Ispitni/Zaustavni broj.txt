@@ -1,0 +1,110 @@
+#include <iostream>
+#include <ctime>
+using namespace std;
+
+
+/*Napisite program gdje se uzastopno generiraju brojevi koristeći rand() funkciju koji su u rasponu od 10 do 9999, uključujući i granične vrijednosti.
+
+Ako se dobije trocifreni broj koji u sebi sadrži tri ista parna broja, npr. 666, program se zaustavlja.
+
+Ako se dobije broj koji sadrži unutar sebe više neparnih nego parnih cifara, taj broj se ne treba uzeti u razmatranje, ali se izvršavanje programa nastavlja.
+
+Nakon što se dobije trocifreni broj koji unutar sebe sadrži tri ista parna broja, npr. 444, program treba izračunati prosjek svih prvih cifara prethodno generiranih brojeva. Broj sa kojim se završava program ne uzimati u razmatranje pri računanju prosjeka.
+
+Potom ispisati:
+
+prosjek,
+broj generiranih brojeva,
+zaustavni broj.*/
+
+bool ZaustavniBroj(int n)
+{
+    if (n < 100 || n > 999)
+        return false;
+
+    int c1 = n / 100;
+    int c2 = (n / 10) % 10;
+    int c3 = n % 10;
+
+    if (c1 == c2 && c2 == c3 && c1 % 2 == 0)
+        return true;
+
+    return false;
+}
+
+bool ViseNeparnih(int n)
+{
+    int parni = 0;
+    int neparni = 0;
+
+    while (n != 0)
+    {
+        int cifra = n % 10;
+
+        if (cifra % 2 == 0)
+            parni++;
+        else
+            neparni++;
+
+        n /= 10;
+    }
+
+    return neparni > parni;
+}
+
+int PrvaCifra(int n)
+{
+    while (n >= 10)
+        n /= 10;
+
+    return n;
+}
+
+void GenerisiBrojeve()
+{
+    int sumaPrvihCifara = 0;
+    int brojGenerisanih = 0;
+    int zaustavniBroj = 0;
+
+    while (true)
+    {
+        int n = rand() % 9990 + 10; // 10-9999
+
+        brojGenerisanih++;
+
+        cout << "Generisan broj: " << n;
+
+        if (ZaustavniBroj(n))
+        {
+            zaustavniBroj = n;
+            break;
+        }
+
+        if (ViseNeparnih(n))
+        {
+            cout << " Se Preskace" << endl;
+            continue;
+        }
+        cout << endl;
+
+        sumaPrvihCifara += PrvaCifra(n);
+    }
+
+    double prosjek = 0;
+
+    if (brojGenerisanih - 1 > 0)
+        prosjek = (double)sumaPrvihCifara / (brojGenerisanih - 1);
+
+    cout << "\nProsjek prvih cifara: " << prosjek << endl;
+    cout << "Broj generisanih brojeva: " << brojGenerisanih << endl;
+    cout << "Zaustavni broj: " << zaustavniBroj << endl;
+}
+
+void main(){
+
+    srand(time(NULL));
+
+    GenerisiBrojeve();
+
+    system("pause");
+}
