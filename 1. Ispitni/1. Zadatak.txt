@@ -5,7 +5,7 @@ using namespace std;
 
 /* 1.	Napisati program koji simulira izvlacenje 3 karte.Karte mogu imati vrijednosti od 1 do 14 (koristeci rand() funkciju).
 Cilj je da se dobiju 3 vrijednosti karata koje su medjusobno u razmaku po 5 (npr 1, 6, 11).
-Program treba da ispise koliko je pokusaja bilo potrebno da se te ostvari i konacnu kombinaciju vrijednosti karata
+Program treba da ispise koliko je pokusaja bilo potrebno da se te ostvari i konacnu kombinaciju vrijednosti karata 
 (nacrtati i dijagram).. */
 
 
